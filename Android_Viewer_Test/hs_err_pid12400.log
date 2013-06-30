@@ -1,0 +1,115 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:3494), pid=12400, tid=11560
+#  Error: ShouldNotReachHere()
+#
+# JRE version: 6.0_45-b06
+# Java VM: Java HotSpot(TM) Client VM (20.45-b01 mixed mode windows-x86 )
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x001a9400):  JavaThread "Unknown thread" [_thread_in_vm, id=11560, stack(0x00380000,0x003d0000)]
+
+Stack: [0x00380000,0x003d0000],  sp=0x003cf86c,  free space=318k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x13490a]
+V  [jvm.dll+0x12f3fb]
+V  [jvm.dll+0x1676e]
+V  [jvm.dll+0x17faf]
+V  [jvm.dll+0x27565]
+V  [jvm.dll+0x27da6]
+V  [jvm.dll+0x28155]
+V  [jvm.dll+0x281e9]
+V  [jvm.dll+0x282ac]
+V  [jvm.dll+0x2832a]
+V  [jvm.dll+0x2840d]
+V  [jvm.dll+0x286d9]
+V  [jvm.dll+0x6cdd3]
+V  [jvm.dll+0x6d1ac]
+V  [jvm.dll+0xfa79c]
+V  [jvm.dll+0x1190eb]
+V  [jvm.dll+0x9f4e0]
+C  [javaw.exe+0x1657]
+C  [javaw.exe+0x1e2c]
+C  [javaw.exe+0x8624]
+C  [kernel32.dll+0x51174]  BaseThreadInitThunk+0x12
+C  [ntdll.dll+0x5b3f5]  RtlInitializeExceptionChain+0x63
+C  [ntdll.dll+0x5b3c8]  RtlInitializeExceptionChain+0x36
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x001a9400 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=11560, stack(0x00380000,0x003d0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x00400000 - 0x00425000 	C:\Program Files\Java\jdk1.6.0_45\bin\javaw.exe
+0x776f0000 - 0x7782c000 	C:\Windows\SYSTEM32\ntdll.dll
+0x75ea0000 - 0x75f74000 	C:\Windows\system32\kernel32.dll
+0x758f0000 - 0x7593a000 	C:\Windows\system32\KERNELBASE.dll
+0x76450000 - 0x764f0000 	C:\Windows\system32\ADVAPI32.dll
+0x75fc0000 - 0x7606c000 	C:\Windows\system32\msvcrt.dll
+0x77900000 - 0x77919000 	C:\Windows\SYSTEM32\sechost.dll
+0x75b40000 - 0x75be1000 	C:\Windows\system32\RPCRT4.dll
+0x77830000 - 0x778f9000 	C:\Windows\system32\USER32.dll
+0x776a0000 - 0x776ee000 	C:\Windows\system32\GDI32.dll
+0x77450000 - 0x7745a000 	C:\Windows\system32\LPK.dll
+0x75bf0000 - 0x75c8d000 	C:\Windows\system32\USP10.dll
+0x76420000 - 0x7643f000 	C:\Windows\system32\IMM32.DLL
+0x75cf0000 - 0x75dbc000 	C:\Windows\system32\MSCTF.dll
+0x755b0000 - 0x75836000 	c:\progra~2\browse~1\261339~1.144\{c16c1~1\browse~1.dll
+0x76610000 - 0x77259000 	C:\Windows\system32\SHELL32.dll
+0x75c90000 - 0x75ce7000 	C:\Windows\system32\SHLWAPI.dll
+0x77260000 - 0x773bc000 	C:\Windows\system32\ole32.dll
+0x773c0000 - 0x7744f000 	C:\Windows\system32\OLEAUT32.dll
+0x75540000 - 0x75549000 	C:\Windows\system32\VERSION.dll
+0x75f90000 - 0x75fba000 	C:\Windows\system32\imagehlp.dll
+0x75f80000 - 0x75f85000 	C:\Windows\system32\PSAPI.DLL
+0x754e0000 - 0x75538000 	C:\Windows\system32\WINHTTP.dll
+0x75490000 - 0x754df000 	C:\Windows\system32\webio.dll
+0x7c340000 - 0x7c396000 	C:\Program Files\Java\jdk1.6.0_45\jre\bin\msvcr71.dll
+0x6d8e0000 - 0x6db90000 	C:\Program Files\Java\jdk1.6.0_45\jre\bin\client\jvm.dll
+0x70520000 - 0x70552000 	C:\Windows\system32\WINMM.dll
+0x75420000 - 0x7546b000 	C:\Windows\system32\apphelp.dll
+0x6d890000 - 0x6d89c000 	C:\Program Files\Java\jdk1.6.0_45\jre\bin\verify.dll
+0x6d3e0000 - 0x6d3ff000 	C:\Program Files\Java\jdk1.6.0_45\jre\bin\java.dll
+0x6d8d0000 - 0x6d8df000 	C:\Program Files\Java\jdk1.6.0_45\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 -Xbootclasspath:D:\adt-bundle-windows-x86-20130219\adt-bundle-windows-x86-20130219\sdk\platforms\android-17\android.jar 
+java_command: org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 24919 -testLoaderClass org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestLoader -loaderpluginname org.eclipse.jdt.junit.runtime -classNames com.dimuthuupeksha.viewer.android.applib.test.ROClientOK
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.6.0_45
+PATH=C:/Program Files/Java/jre6/bin/client;C:/Program Files/Java/jre6/bin;C:/Program Files/Java/jre6/lib/i386;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\MySQL\MySQL Server 5.0\bin;C:\Program Files\Intel\OpenCL SDK\2.0\bin\x86;C:\apache-maven-3.0.5\bin;C:\Program Files\TortoiseSVN\bin;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\nodejs;C:\Program Files\Bazaar;C:\Users\Pancha\AppData\Roaming\npm\;C:\Program Files\Java\jdk1.6.0\bin;C:\Program Files\Java\jre7\bin;C:\Program Files\Java\jdk1.6.0_45\bin;D:\eclipse\eclipse;
+USERNAME=Pancha
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 42 Stepping 7, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7600 
+
+CPU:total 4 (4 cores per cpu, 1 threads per core) family 6 model 42 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt
+
+Memory: 4k page, physical 2588900k(752716k free), swap 5726948k(1658840k free)
+
+vm_info: Java HotSpot(TM) Client VM (20.45-b01) for windows-x86 JRE (1.6.0_45-b06), built on Mar 26 2013 13:40:03 by "java_re" with MS VC++ 7.1 (VS2003)
+
+time: Sat Jun 29 18:06:23 2013
+elapsed time: 0 seconds
+
