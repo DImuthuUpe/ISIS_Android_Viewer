@@ -18,7 +18,7 @@ public class Get_thenRepresentation_OK extends TestCase {
     
     public void testHomepageRepresentation() throws Exception{
         String params[]= {};        
-        ROClient client = new ROClient(HttpHelper.HOST);
+        ROClient client = ROClient.getInstance();
         RORequest request = client.RORequestTo(Resource.DomainTypes, params);
         DomainTypesRepresentation dtypesRepresentation = client.executeT(DomainTypesRepresentation.class,"GET",request, null);
         assertNotNull(dtypesRepresentation);

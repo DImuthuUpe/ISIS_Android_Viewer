@@ -25,8 +25,17 @@ import org.codehaus.jackson.type.TypeReference;
 
 public class ROClient {
     private String baseUri;
-    public ROClient(String baseUrl){
+    private ROClient(String baseUrl){
         this.baseUri = baseUrl;
+    }
+    
+    private static ROClient client=null;
+    
+    public static ROClient getInstance(){
+        if(client==null){
+            client= new ROClient(HttpHelper.HOST);
+        }
+        return client;
     }
     
     public RORequest RORequestTo(String path){
@@ -100,6 +109,11 @@ public class ROClient {
 
 
     public HomepageRepresentation homePage(){
-        return null;
+        String params[]= {}; 
+        RORequest request = RORequest.To(HttpHelper.HOST, Resource.HomePage, params);
+        HomepageRepresentation homepageRepresentation = executeT(HomepageRepresentation.class,"GET",request, null);
+       return homepageRepresentation;
     }
+
+    
 }

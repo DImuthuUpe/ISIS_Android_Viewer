@@ -21,7 +21,7 @@ public class ROClientOK extends TestCase {
     public void testExecuteStatusCode200() throws Exception{
         String params[]= {}; 
         RORequest request = RORequest.To(HttpHelper.HOST, Resource.HomePage, params);
-        ROClient client = new ROClient(HttpHelper.HOST);
+        ROClient client = ROClient.getInstance();
         HttpResponse response = client.execute("GET",request, null);
         assertEquals(200,response.getStatusLine().getStatusCode());
         

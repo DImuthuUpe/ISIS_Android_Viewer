@@ -12,7 +12,7 @@ public class Get_thenRepresentation_OK extends TestCase {
     public void testuserRepresentation() throws Exception{
         String params[]= {}; 
         
-        ROClient client = new ROClient(HttpHelper.HOST);
+        ROClient client = ROClient.getInstance();
         RORequest request =  client.RORequestTo(Resource.User, params);
         UserRepresentation userRepresentation = client.executeT(UserRepresentation.class,"GET",request, null);
         assertNotNull(userRepresentation);

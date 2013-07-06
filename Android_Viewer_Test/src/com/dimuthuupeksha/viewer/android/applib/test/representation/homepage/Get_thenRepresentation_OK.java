@@ -17,7 +17,7 @@ public class Get_thenRepresentation_OK extends TestCase {
     public void testHomepageRepresentation() throws Exception{
         String params[]= {}; 
         RORequest request = RORequest.To(HttpHelper.HOST, Resource.HomePage, params);
-        ROClient client = new ROClient(HttpHelper.HOST);
+        ROClient client = ROClient.getInstance();
         HomepageRepresentation homepageRepresentation = client.executeT(HomepageRepresentation.class,"GET",request, null);
         assertNotNull(homepageRepresentation);
         assertEquals(homepageRepresentation.getLinks().get(0).getHref(), HttpHelper.HOST+"/");

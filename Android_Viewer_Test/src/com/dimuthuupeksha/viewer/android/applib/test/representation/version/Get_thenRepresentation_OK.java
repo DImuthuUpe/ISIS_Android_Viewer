@@ -17,7 +17,7 @@ public class Get_thenRepresentation_OK extends TestCase {
     public void testVersionRepresentation() throws Exception{
         String params[]= {}; 
         RORequest request = RORequest.To(HttpHelper.HOST, Resource.Version, params);
-        ROClient client = new ROClient(HttpHelper.HOST);
+        ROClient client = ROClient.getInstance();
         VersionRepresentation versionRepresentation = client.executeT(VersionRepresentation.class,"GET",request, null);
         assertNotNull(versionRepresentation);
         assertEquals(versionRepresentation.getLinks().get(0).getHref(), HttpHelper.HOST+"/version");
