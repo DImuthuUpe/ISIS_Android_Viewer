@@ -3,7 +3,6 @@ package com.dimuthuupeksha.viewer.android.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dimuthuupeksha.viewer.android.applib.HttpHelper;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.UrlTemplate;
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;

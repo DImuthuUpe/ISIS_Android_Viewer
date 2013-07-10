@@ -1,5 +1,8 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.representation.LinkRepresentation;
@@ -11,10 +14,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
 
-public class ServicesActivity extends Activity {
+public class ServicesActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +35,15 @@ public class ServicesActivity extends Activity {
     
     
     private void render(){
-        System.out.println("link " + Model.getInstance().getServices().getLinks().get(0).getHref());
-        
+        System.out.println("link " + Model.getInstance().getServices().getValue().get(0).getHref());
+        List<LinkRepresentation> links = Model.getInstance().getServices().getValue();
+        List<String> items = new ArrayList<String>();
+        for(LinkRepresentation link: links){
+            items.add(link.getTitle());
+        }
+        String[] values = items.toArray(new String[items.size()]);
+        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values));
+    
     }
     
     private class ServicesTask extends AsyncTask<LinkRepresentation, Void, ServicesRepresentation> {
@@ -65,8 +77,9 @@ public class ServicesActivity extends Activity {
         protected void onPostExecute(ServicesRepresentation services) {
             if(services!=null){
                 Model.getInstance().setServices(services);
-                activity.render();
+                activity.render(); 
             }
+            pd.hide();
         }
         
     }
