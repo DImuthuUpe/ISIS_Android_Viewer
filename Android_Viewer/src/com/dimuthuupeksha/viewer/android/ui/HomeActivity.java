@@ -37,7 +37,7 @@ public class HomeActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
 
-        setContentView(R.layout.list);
+        //setContentView(R.layout.list);
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.home_page));        
         new HomeTask(HomeActivity.this).execute();
