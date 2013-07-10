@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.Map;
 
 
+import android.text.style.ReplacementSpan;
 import android.util.Log;
 
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
@@ -12,9 +13,13 @@ import com.dimuthuupeksha.viewer.android.applib.representation.HomepageRepresent
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepresentation;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
@@ -49,16 +54,21 @@ public class ROClient {
     public RORequest RORequestTo(Resource resource, Map<String, String> pathElementMap){
         return RORequest.To(baseUri, resource, pathElementMap);
     }
-
+    
     public HttpResponse execute(String httpMethod, RORequest roRequest, Object args){
+        
         if(httpMethod.equals("GET")){
+            System.out.println("Step 12a");
             HttpClient client = HttpHelper.getInstance().getClient();
             //String query = "?" + URLEncodedUtils.format(params, "utf-8");
             HttpGet get;
             try {
+                System.out.println("get url "+roRequest.asUriStr());
                 get = new HttpGet(roRequest.asUriStr());
                 get.setHeader("Accept","*/*");
+                System.out.println("Step 13");
                 HttpResponse response = client.execute(get);
+                System.out.println("Step 14");
                 return response;
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -69,14 +79,20 @@ public class ROClient {
     }
     
     public <T extends JsonRepresentation> T executeT(Class<T> t,String httpMethod, RORequest roRequest, Object args){
+        System.out.println("Step 11");
         HttpResponse response = execute(httpMethod, roRequest, args);        
-        
+        System.out.println("Step 12///////////////////////////////////////////////");
         try {
+            System.out.println(response.getStatusLine().getStatusCode());
+            System.out.println("Step a");
             String json = EntityUtils.toString(response.getEntity());
+            System.out.println("Step b");
             JsonParser jp = new JsonFactory().createJsonParser(json);
+            System.out.println("Step c");
             ObjectMapper objectMapper = new ObjectMapper();
-            
+            System.out.println("Step d");
             T representation = objectMapper.readValue(jp,t);
+            System.out.println("Step e");
             return representation;
         } catch (JsonParseException e) {
             // TODO Auto-generated catch block
@@ -84,7 +100,7 @@ public class ROClient {
         } catch (JsonMappingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

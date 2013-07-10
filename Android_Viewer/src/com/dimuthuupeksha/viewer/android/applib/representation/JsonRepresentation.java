@@ -1,6 +1,8 @@
 package com.dimuthuupeksha.viewer.android.applib.representation;
 
-public class JsonRepresentation {
+import java.io.Serializable;
+
+public class JsonRepresentation implements Serializable{
     
     
     public static <T> T FromString(String str){

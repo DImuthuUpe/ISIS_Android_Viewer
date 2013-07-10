@@ -1,5 +1,6 @@
 package com.dimuthuupeksha.viewer.android.applib.representation;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
