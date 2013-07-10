@@ -8,5 +8,6 @@
     <string name="home_page">Home Page</string>
     <string name="title_activity_service">ServiceActivity</string>
     <string name="services_page">Services</string>
+    <string name="title_activity_domain_service">DomainServiceActivity</string>
 
 </resources>

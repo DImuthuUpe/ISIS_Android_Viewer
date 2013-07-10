@@ -1,15 +1,15 @@
 package com.dimuthuupeksha.viewer.android.uimodel;
 
-import com.dimuthuupeksha.viewer.android.applib.representation.HomepageRepresentation;
-import com.dimuthuupeksha.viewer.android.applib.representation.ServicesRepresentation;
+import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
+import com.dimuthuupeksha.viewer.android.applib.representation.Services;
 
 public class Model {
 
     static Model instance;
     static final Object lock = new Object();
     /* The Model */
-    private HomepageRepresentation homePage;
-    private ServicesRepresentation services;
+    private Homepage homePage;
+    private Services services;
     
     public static Model getInstance() {
         synchronized (lock) {
@@ -20,19 +20,19 @@ public class Model {
         }
     }
 
-    public HomepageRepresentation getHomePage() {
+    public Homepage getHomePage() {
         return homePage;
     }
 
-    public void setHomePage(HomepageRepresentation homePage) {
+    public void setHomePage(Homepage homePage) {
         this.homePage = homePage;
     }
 
-    public ServicesRepresentation getServices() {
+    public Services getServices() {
         return services;
     }
 
-    public void setServices(ServicesRepresentation services) {
+    public void setServices(Services services) {
         this.services = services;
     }
     

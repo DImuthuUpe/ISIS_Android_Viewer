@@ -3,25 +3,25 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class CollectionRepresentation {
+public class Collection {
     private String id;
 
-    private List<LinkRepresentation> value;
+    private List<Link> value;
 
     private String disabledReason;
 
-    private List<LinkRepresentation> links;
-    private Map<String, GenericRepresentation> extensions;
+    private List<Link> links;
+    private Map<String, String> extensions;
     public String getId() {
         return id;
     }
     public void setId(String id) {
         this.id = id;
     }
-    public List<LinkRepresentation> getValue() {
+    public List<Link> getValue() {
         return value;
     }
-    public void setValue(List<LinkRepresentation> value) {
+    public void setValue(List<Link> value) {
         this.value = value;
     }
     public String getDisabledReason() {
@@ -30,18 +30,19 @@ public class CollectionRepresentation {
     public void setDisabledReason(String disabledReason) {
         this.disabledReason = disabledReason;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
+    
     
     
 }

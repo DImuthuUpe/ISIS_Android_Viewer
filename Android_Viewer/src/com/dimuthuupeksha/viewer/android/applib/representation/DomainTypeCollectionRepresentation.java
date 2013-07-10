@@ -9,8 +9,8 @@ public class DomainTypeCollectionRepresentation {
     private String pluralForm;
     private String description;    
     private String memberOrder;
-    private List<LinkRepresentation> links;
-    private Map<String, GenericRepresentation> extensions;
+    private List<Link> links;
+    private Map<String, String> extensions;
     public String getId() {
         return id;
     }
@@ -41,16 +41,16 @@ public class DomainTypeCollectionRepresentation {
     public void setMemberOrder(String memberOrder) {
         this.memberOrder = memberOrder;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
     

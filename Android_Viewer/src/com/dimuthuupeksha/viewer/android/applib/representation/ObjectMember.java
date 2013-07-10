@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ObjectMemberRepresentation extends GenericRepresentation{
+public class ObjectMember{
     private String id;
 
     /// <summary>
@@ -17,7 +17,7 @@ public class ObjectMemberRepresentation extends GenericRepresentation{
     /// Populated for property and collection, not for actions.
     /// </summary>
     /// <see cref="MemberType"/>
-    private GenericRepresentation value;
+    private String value;
 
     /// <summary>
     /// Populated only for collections.
@@ -25,8 +25,8 @@ public class ObjectMemberRepresentation extends GenericRepresentation{
     /// <see cref="MemberType"/>
     private int size;
 
-    private List<LinkRepresentation> links;
-    private Map<String, GenericRepresentation> extensions;
+    private List<Link> links;
+    private Map<String, String> extensions;
     public String getId() {
         return id;
     }
@@ -45,10 +45,10 @@ public class ObjectMemberRepresentation extends GenericRepresentation{
     public void setDisabledReason(String disabledReason) {
         this.disabledReason = disabledReason;
     }
-    public GenericRepresentation getValue() {
+    public String getValue() {
         return value;
     }
-    public void setValue(GenericRepresentation value) {
+    public void setValue(String value) {
         this.value = value;
     }
     public int getSize() {
@@ -57,18 +57,18 @@ public class ObjectMemberRepresentation extends GenericRepresentation{
     public void setSize(int size) {
         this.size = size;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
-    
+   
     
 }

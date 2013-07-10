@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ObjectRepresentation extends JsonRepresentation{
+public class Object extends JsonRepr{
     /// <summary>
     /// Applies only when the representation is of a domain service
     /// </summary>
@@ -21,10 +21,10 @@ public class ObjectRepresentation extends JsonRepresentation{
 
     private String title;
 
-    private Map<String, ObjectMemberRepresentation> members;
+    private Map<String, ObjectMember> members;
 
-    private List<LinkRepresentation> links;
-    private Map<String, GenericRepresentation> extensions;
+    private List<Link> links;
+    private Map<String, String> extensions;
     public String getServiceId() {
         return serviceId;
     }
@@ -49,24 +49,25 @@ public class ObjectRepresentation extends JsonRepresentation{
     public void setTitle(String title) {
         this.title = title;
     }
-    public Map<String, ObjectMemberRepresentation> getMembers() {
+    public Map<String, ObjectMember> getMembers() {
         return members;
     }
-    public void setMembers(Map<String, ObjectMemberRepresentation> members) {
+    public void setMembers(Map<String, ObjectMember> members) {
         this.members = members;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
+    
     
     
 

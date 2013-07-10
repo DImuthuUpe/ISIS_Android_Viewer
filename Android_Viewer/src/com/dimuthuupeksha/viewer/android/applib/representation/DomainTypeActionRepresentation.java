@@ -17,8 +17,8 @@ public class DomainTypeActionRepresentation {
 
     private Map<String,DomainTypeActionParamRepresentation> params;
 
-    private List<LinkRepresentation> links;
-    private Map<String, GenericRepresentation> extensions;
+    private List<Link> links;
+    private Map<String, String> extensions;
     public String getId() {
         return id;
     }
@@ -61,16 +61,17 @@ public class DomainTypeActionRepresentation {
     public void setParams(Map<String, DomainTypeActionParamRepresentation> params) {
         this.params = params;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
-    }    
+    }
+    
 }

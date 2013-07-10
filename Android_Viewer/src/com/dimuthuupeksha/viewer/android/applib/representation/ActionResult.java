@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ActionResultRepresentation {
+public class ActionResult {
   /// <summary>
     /// "object", "list", "scalar" or "void"
     /// </summary>
@@ -13,31 +13,32 @@ public class ActionResultRepresentation {
     /// Per the result type, may be cast to either ObjectRepr, ListRepr or ScalarRepr.
     /// </summary>
     /// <see cref="ResultType"/>
-    private GenericRepresentation result;
-    private List<LinkRepresentation> links;
-    private Map<String, GenericRepresentation> extensions;
+    private String result;
+    private List<Link> links;
+    private Map<String, String> extensions;
     public String getResultType() {
         return resultType;
     }
     public void setResultType(String resultType) {
         this.resultType = resultType;
     }
-    public GenericRepresentation getResult() {
+    public String getResult() {
         return result;
     }
-    public void setResult(GenericRepresentation result) {
+    public void setResult(String result) {
         this.result = result;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
+    
 }

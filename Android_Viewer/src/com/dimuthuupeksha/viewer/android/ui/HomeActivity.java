@@ -6,9 +6,9 @@ import java.util.List;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.UrlTemplate;
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
-import com.dimuthuupeksha.viewer.android.applib.representation.HomepageRepresentation;
-import com.dimuthuupeksha.viewer.android.applib.representation.LinkRepresentation;
-import com.dimuthuupeksha.viewer.android.applib.representation.ListRepresentation;
+import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.applib.representation.ListRepr;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 
@@ -47,9 +47,9 @@ public class HomeActivity extends ListActivity {
     
     protected void onListItemClick(ListView list, View view, int position, long id) {
         super.onListItemClick(list, view, position, id);
-        HomepageRepresentation homePage = Model.getInstance().getHomePage();
+        Homepage homePage = Model.getInstance().getHomePage();
         Object selected = this.getListAdapter().getItem(position);
-        System.out.println("a "+homePage.getLinks().get(position).getRel());
+        //System.out.println("a "+homePage.getLinks().get(position).getRel());
         if(selected.toString().equals("services")){
             Intent intent = new Intent(HomeActivity.this, ServicesActivity.class);
             intent.putExtra("link", homePage.getLinks().get(position));
@@ -60,16 +60,16 @@ public class HomeActivity extends ListActivity {
     }
 
     public void render(){
-        List<LinkRepresentation> links = Model.getInstance().getHomePage().getLinks();
+        List<Link> links = Model.getInstance().getHomePage().getLinks();
         List<String> items = new ArrayList<String>();
-        for(LinkRepresentation link: links){
+        for(Link link: links){
             items.add(link.getRel().replace("urn:org.restfulobjects:rels/", ""));
         }
         String[] values = items.toArray(new String[items.size()]);
         setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values));
     }
     
-    private class HomeTask extends AsyncTask<Void, Void, HomepageRepresentation> {
+    private class HomeTask extends AsyncTask<Void, Void, Homepage> {
         private final ProgressDialog pd;
         private final HomeActivity activity;
 
@@ -86,8 +86,8 @@ public class HomeActivity extends ListActivity {
 
 
         @Override
-        protected HomepageRepresentation doInBackground(Void... voids) {
-            HomepageRepresentation homePage = Model.getInstance().getHomePage();
+        protected Homepage doInBackground(Void... voids) {
+            Homepage homePage = Model.getInstance().getHomePage();
             
             if(homePage==null){
                 homePage = ROClient.getInstance().homePage();
@@ -96,7 +96,7 @@ public class HomeActivity extends ListActivity {
         }
 
         @Override
-        protected void onPostExecute(HomepageRepresentation homePage) {
+        protected void onPostExecute(Homepage homePage) {
             if(homePage!=null){
                 Model.getInstance().setHomePage(homePage);
                 activity.render();

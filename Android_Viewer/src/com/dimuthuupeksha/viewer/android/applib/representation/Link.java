@@ -1,8 +1,9 @@
 package com.dimuthuupeksha.viewer.android.applib.representation;
 
+import java.util.List;
 import java.util.Map;
 
-public class LinkRepresentation extends JsonRepresentation{
+public class Link extends JsonRepr{
     private String Id;
     private String title;
     private String rel;
@@ -10,7 +11,7 @@ public class LinkRepresentation extends JsonRepresentation{
     private String method;
     private String type;
 
-    public Map<String, GenericRepresentation> arguments;
+    public Map<String, List<ArgumentNodeForLink>> arguments;
 
     public String getId() {
         return Id;
@@ -60,13 +61,19 @@ public class LinkRepresentation extends JsonRepresentation{
         this.type = type;
     }
 
-    public Map<String, GenericRepresentation> getArguments() {
+    public Map<String, List<ArgumentNodeForLink>> getArguments() {
         return arguments;
     }
 
-    public void setArguments(Map<String, GenericRepresentation> arguments) {
+    public void setArguments(Map<String, List<ArgumentNodeForLink>> arguments) {
         this.arguments = arguments;
     }
+    
+    
+
+    
+
+    
     
     
 }

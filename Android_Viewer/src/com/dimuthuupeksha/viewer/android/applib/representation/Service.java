@@ -3,17 +3,18 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceRepresentation extends JsonRepresentation{
+public class Service extends JsonRepr{
     
-    private List<LinkRepresentation> links;
+    private List<Link> links;
     private Map<String, String> extensions;
     private String title;
     private String serviceId;
-    private Map<String, ObjectMemberRepresentation> members;
-    public List<LinkRepresentation> getLinks() {
+    private String oid;    
+    private List<ServiceMember> members;
+    public List<Link> getLinks() {
         return links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
     public Map<String, String> getExtensions() {
@@ -34,12 +35,22 @@ public class ServiceRepresentation extends JsonRepresentation{
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
     }
-    public Map<String, ObjectMemberRepresentation> getMembers() {
+    
+    
+    public List<ServiceMember> getMembers() {
         return members;
     }
-    public void setMembers(Map<String, ObjectMemberRepresentation> members) {
+    public void setMembers(List<ServiceMember> members) {
         this.members = members;
     }
+    public String getOid() {
+        return oid;
+    }
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+    
+    
     
     
 }

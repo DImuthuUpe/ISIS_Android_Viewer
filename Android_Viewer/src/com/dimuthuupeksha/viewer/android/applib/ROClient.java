@@ -9,8 +9,8 @@ import android.text.style.ReplacementSpan;
 import android.util.Log;
 
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
-import com.dimuthuupeksha.viewer.android.applib.representation.HomepageRepresentation;
-import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepresentation;
+import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
+import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -78,7 +78,7 @@ public class ROClient {
       return null;  
     }
     
-    public <T extends JsonRepresentation> T executeT(Class<T> t,String httpMethod, RORequest roRequest, Object args){
+    public <T extends JsonRepr> T executeT(Class<T> t,String httpMethod, RORequest roRequest, Object args){
         HttpResponse response = execute(httpMethod, roRequest, args);        
         try {
             String json = EntityUtils.toString(response.getEntity());
@@ -101,25 +101,25 @@ public class ROClient {
     }
 
 
-    public <T extends JsonRepresentation> T get(Class<T> t,String path, Object args){
+    public <T extends JsonRepr> T get(Class<T> t,String path, Object args){
         return executeT(t, "GET", RORequestTo(path), args);        
         
     }
-    public <T extends JsonRepresentation> T post(Class<T> t,String uri, Object args){
+    public <T extends JsonRepr> T post(Class<T> t,String uri, Object args){
         return executeT(t, "POST", RORequestTo(uri), args); 
     }
-    public <T extends JsonRepresentation> T put(Class<T> t,String uri, Object args){
+    public <T extends JsonRepr> T put(Class<T> t,String uri, Object args){
         return executeT(t, "PUT", RORequestTo(uri), args);
     }
-    public <T extends JsonRepresentation> T delete(Class<T> t,String uri, Object args){
+    public <T extends JsonRepr> T delete(Class<T> t,String uri, Object args){
         return executeT(t, "DELETE", RORequestTo(uri), args);
     }
 
 
-    public HomepageRepresentation homePage(){
+    public Homepage homePage(){
         String params[]= {}; 
         RORequest request = RORequest.To(host, Resource.HomePage, params);
-        HomepageRepresentation homepageRepresentation = executeT(HomepageRepresentation.class,"GET",request, null);
+        Homepage homepageRepresentation = executeT(Homepage.class,"GET",request, null);
        return homepageRepresentation;
     }
 

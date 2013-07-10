@@ -28,6 +28,10 @@
             android:name="com.dimuthuupeksha.viewer.android.ui.ServicesActivity"
             android:label="@string/title_activity_service" >
         </activity>
+        <activity
+            android:name="com.dimuthuupeksha.viewer.android.ui.DomainServiceActivity"
+            android:label="@string/title_activity_domain_service" >
+        </activity>
     </application>
 
 </manifest>

@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class UserRepresentation extends JsonRepresentation{
+public class User extends JsonRepr{
     private String userName;
 
     private List<String> roles;
@@ -12,8 +12,8 @@ public class UserRepresentation extends JsonRepresentation{
 
     private String email;
 
-    private List<LinkRepresentation> Links;
-    private Map<String, GenericRepresentation> extensions;
+    private List<Link> Links;
+    private Map<String, String> extensions;
     public String getUserName() {
         return userName;
     }
@@ -38,16 +38,16 @@ public class UserRepresentation extends JsonRepresentation{
     public void setEmail(String email) {
         this.email = email;
     }
-    public List<LinkRepresentation> getLinks() {
+    public List<Link> getLinks() {
         return Links;
     }
-    public void setLinks(List<LinkRepresentation> links) {
+    public void setLinks(List<Link> links) {
         Links = links;
     }
-    public Map<String, GenericRepresentation> getExtensions() {
+    public Map<String, String> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, GenericRepresentation> extensions) {
+    public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
     
