@@ -10,7 +10,7 @@ public class Service extends JsonRepr{
     private String title;
     private String serviceId;
     private String oid;    
-    private List<ServiceMember> members;
+    private Map<String,ServiceMember> members;
     public List<Link> getLinks() {
         return links;
     }
@@ -36,11 +36,10 @@ public class Service extends JsonRepr{
         this.serviceId = serviceId;
     }
     
-    
-    public List<ServiceMember> getMembers() {
+    public Map<String, ServiceMember> getMembers() {
         return members;
     }
-    public void setMembers(List<ServiceMember> members) {
+    public void setMembers(Map<String, ServiceMember> members) {
         this.members = members;
     }
     public String getOid() {

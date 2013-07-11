@@ -2,6 +2,7 @@ package com.dimuthuupeksha.viewer.android.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
@@ -31,10 +32,11 @@ public class DomainServiceActivity extends ListActivity {
     }
     
     private void render(Service service){
-        List<ServiceMember> members = service.getMembers();
+        Map<String,ServiceMember> members = service.getMembers();
         List<String> items = new ArrayList<String>();
-        for(ServiceMember member: members){
-            items.add(member.getId());
+        String[] temp={};
+        for(String id: members.keySet().toArray(temp)){
+            items.add(id);
         }
         String[] values = items.toArray(new String[items.size()]);
         setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values));
@@ -62,8 +64,9 @@ public class DomainServiceActivity extends ListActivity {
             List<Link> actions = new ArrayList<Link>();
             System.out.println("DomainService "+links[0].getHref());
             Service service = ROClient.getInstance().get(Service.class, links[0].getHref(), null);
-            for(ServiceMember member: service.getMembers()){
-                System.out.println(member.getId());
+            String temp[]={};
+            for(String id: service.getMembers().keySet().toArray(temp)){
+                System.out.println(id);
             }            
             return service;
         }
