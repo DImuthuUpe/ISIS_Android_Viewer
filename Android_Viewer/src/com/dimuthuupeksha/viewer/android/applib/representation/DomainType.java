@@ -3,76 +3,35 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
+
 public class DomainType extends JsonRepr{
-    private String name;
-    private String domainType;
-    private String friendlyName;
-    private String pluralName;
-    private String description;
-    private boolean isService;
-
-    private Map<String, String> typeActions;
-    private Map<String, String> members;
-
-    private Map<String, String> extensions;
-    public String getName() {
-        return name;
+    private String canonicalName;
+    private List<Link> members;
+    private List<Link> typeActions;
+    private Map<String, JsonNode> extensions;
+    public String getCanonicalName() {
+        return canonicalName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setCanonicalName(String canonicalName) {
+        this.canonicalName = canonicalName;
     }
-    public String getDomainType() {
-        return domainType;
-    }
-    public void setDomainType(String domainType) {
-        this.domainType = domainType;
-    }
-    public String getFriendlyName() {
-        return friendlyName;
-    }
-    public void setFriendlyName(String friendlyName) {
-        this.friendlyName = friendlyName;
-    }
-    public String getPluralName() {
-        return pluralName;
-    }
-    public void setPluralName(String pluralName) {
-        this.pluralName = pluralName;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public boolean isService() {
-        return isService;
-    }
-    public void setService(boolean isService) {
-        this.isService = isService;
-    }
-    public Map<String, String> getTypeActions() {
-        return typeActions;
-    }
-    public void setTypeActions(Map<String, String> typeActions) {
-        this.typeActions = typeActions;
-    }
-    public Map<String, String> getMembers() {
+    public List<Link> getMembers() {
         return members;
     }
-    public void setMembers(Map<String, String> members) {
+    public void setMembers(List<Link> members) {
         this.members = members;
     }
-    public List<Link> getLinks() {
-        return links;
+    public List<Link> getTypeActions() {
+        return typeActions;
     }
-    public void setLinks(List<Link> links) {
-        this.links = links;
+    public void setTypeActions(List<Link> typeActions) {
+        this.typeActions = typeActions;
     }
-    public Map<String, String> getExtensions() {
+    public Map<String, JsonNode> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, String> extensions) {
+    public void setExtensions(Map<String, JsonNode> extensions) {
         this.extensions = extensions;
     }
     

@@ -56,6 +56,7 @@ public class DomainServiceActivity extends ListActivity {
         ServiceMember selectedMember = members.get(selected);
         Intent intent = new Intent(DomainServiceActivity.this, ActionActivity.class);
         intent.putExtra("member", selectedMember);
+        intent.putExtra("title", selected);
         startActivity(intent);
     }
 

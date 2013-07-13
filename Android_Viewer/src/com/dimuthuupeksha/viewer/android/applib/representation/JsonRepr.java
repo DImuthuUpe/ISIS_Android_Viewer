@@ -31,5 +31,13 @@ public class JsonRepr implements Serializable{
         }
         return null;
     }
+    public List<Link> getLinks() {
+        return links;
+    }
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+    
+    
 
 }
