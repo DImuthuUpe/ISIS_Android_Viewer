@@ -3,30 +3,29 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
+
 public class ListRepr extends JsonRepr{
-    private List<Link> value;
-    
-    
-    private Map<String, String> extensions;
-    public List<Link> getValue() {
-        return value;
+
+    private String resulttype;
+    private ListResult result;
+    private Map<String, JsonNode> extensions;
+    public String getResulttype() {
+        return resulttype;
     }
-    public void setValue(List<Link> value) {
-        this.value = value;
+    public void setResulttype(String resulttype) {
+        this.resulttype = resulttype;
     }
-    public List<Link> getLinks() {
-        return links;
+    public ListResult getResult() {
+        return result;
     }
-    public void setLinks(List<Link> links) {
-        this.links = links;
+    public void setResult(ListResult result) {
+        this.result = result;
     }
-    public Map<String, String> getExtensions() {
+    public Map<String, JsonNode> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, String> extensions) {
+    public void setExtensions(Map<String, JsonNode> extensions) {
         this.extensions = extensions;
     }
-    
-    
-    
 }

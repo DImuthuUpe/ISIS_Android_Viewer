@@ -9,7 +9,7 @@ import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.ParamDescription;
+import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeActionParam;
 import com.dimuthuupeksha.viewer.android.applib.representation.ServiceMember;
 import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
 
@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
@@ -37,13 +38,6 @@ public class ActionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-          //      LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        
-        
-        
-        
-        
         
         ServiceMember member = (ServiceMember) getIntent().getSerializableExtra("member");
         String title = (String)getIntent().getSerializableExtra("title");
@@ -60,6 +54,11 @@ public class ActionActivity extends Activity {
         Link invokeLink =action.getLinkByRel("invoke");
         if(!invokeLink.getArguments().isEmpty()){
             new DomainTypeFetcherTask(ActionActivity.this).execute(action);
+        }else{
+            Intent intent = new Intent(ActionActivity.this,InvokeActionActivity.class);
+            intent.putExtra("action", action);
+            startActivity(intent);
+            
         }
         
     }
@@ -158,7 +157,7 @@ public class ActionActivity extends Activity {
                 System.out.println(parameter.get("name"));
                 System.out.println(action.getLinkByRel("describedby").getHref()+"/params/"+ parameter.get("name").getValueAsText());
                 RORequest request = ROClient.getInstance().RORequestTo(action.getLinkByRel("describedby").getHref()+"/params/"+ parameter.get("name").getValueAsText());
-                ParamDescription des = ROClient.getInstance().executeT(ParamDescription.class , "GET", request, null);
+                DomainTypeActionParam des = ROClient.getInstance().executeT(DomainTypeActionParam.class , "GET", request, null);
                 request = ROClient.getInstance().RORequestTo(des.getLinkByRel("return-type").getHref());
                 DomainType domainType = ROClient.getInstance().executeT(DomainType.class,"GET",request, null);
                 System.out.println(domainType.getCanonicalName());

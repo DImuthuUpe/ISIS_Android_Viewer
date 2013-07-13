@@ -15,7 +15,9 @@ public class Link implements Serializable{
     private String type;
 
     private Map<String, Map<String,JsonNode>> arguments;
+    private Map<String, Map<String,JsonNode>> args;
 
+    
     public String getId() {
         return Id;
     }
@@ -71,6 +73,16 @@ public class Link implements Serializable{
     public void setArguments(Map<String, Map<String, JsonNode>> arguments) {
         this.arguments = arguments;
     }
+
+    public Map<String, Map<String, JsonNode>> getArgs() {
+        return args;
+    }
+
+    public void setArgs(Map<String, Map<String, JsonNode>> args) {
+        this.args = args;
+    }
+    
+    
 
     
 }

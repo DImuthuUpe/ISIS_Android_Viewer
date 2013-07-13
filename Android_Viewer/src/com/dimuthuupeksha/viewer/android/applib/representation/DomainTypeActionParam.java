@@ -5,7 +5,7 @@ import java.util.Map;
 
 //This class loads Param Desriptions
 // Ex : http://localhost:8080/restful/domain-types/objstore.jdo.todo.ToDoItemsJdo/actions/newToDo/params/Description
-public class ParamDescription extends JsonRepr{
+public class DomainTypeActionParam extends JsonRepr{
     private String id;
     private String name;
     private int number;

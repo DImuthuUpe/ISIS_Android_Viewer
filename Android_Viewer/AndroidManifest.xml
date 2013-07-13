@@ -36,6 +36,10 @@
             android:name="com.dimuthuupeksha.viewer.android.ui.ActionActivity"
             android:label="@string/title_activity_action" >
         </activity>
+        <activity
+            android:name="com.dimuthuupeksha.viewer.android.ui.InvokeActionActivity"
+            android:label="@string/title_activity_invoke_action" >
+        </activity>
     </application>
 
 </manifest>
