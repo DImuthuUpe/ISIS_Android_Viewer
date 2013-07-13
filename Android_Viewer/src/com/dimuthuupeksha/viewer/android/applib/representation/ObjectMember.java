@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ObjectMember{
+public class ObjectMember extends JsonRepr{
     private String id;
 
     /// <summary>
@@ -25,7 +25,6 @@ public class ObjectMember{
     /// <see cref="MemberType"/>
     private int size;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getId() {
         return id;

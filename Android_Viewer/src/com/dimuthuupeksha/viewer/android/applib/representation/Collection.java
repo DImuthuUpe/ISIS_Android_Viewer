@@ -3,14 +3,13 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class Collection {
+public class Collection extends JsonRepr{
     private String id;
 
     private List<Link> value;
 
     private String disabledReason;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getId() {
         return id;

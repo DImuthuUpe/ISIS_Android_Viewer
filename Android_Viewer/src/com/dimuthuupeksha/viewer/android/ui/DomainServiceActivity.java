@@ -16,8 +16,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class DomainServiceActivity extends ListActivity {
 
@@ -31,7 +34,9 @@ public class DomainServiceActivity extends ListActivity {
         new DomainServiceTask(DomainServiceActivity.this).execute(link);
     }
     
+    private Service service=null;
     private void render(Service service){
+        this.service=service;
         Map<String,ServiceMember> members = service.getMembers();
         List<String> items = new ArrayList<String>();
         String[] temp={};
@@ -40,6 +45,18 @@ public class DomainServiceActivity extends ListActivity {
         }
         String[] values = items.toArray(new String[items.size()]);
         setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values));
+    }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        Map<String,ServiceMember> members = service.getMembers();
+        List<String> items = new ArrayList<String>();
+        String[] temp= new String[ members.keySet().size()];
+        String selected= members.keySet().toArray(temp)[position];
+        ServiceMember selectedMember = members.get(selected);
+        Intent intent = new Intent(DomainServiceActivity.this, ActionActivity.class);
+        intent.putExtra("member", selectedMember);
+        startActivity(intent);
     }
 
     @Override

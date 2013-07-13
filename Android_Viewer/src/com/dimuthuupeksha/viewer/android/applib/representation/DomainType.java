@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class DomainType {
+public class DomainType extends JsonRepr{
     private String name;
     private String domainType;
     private String friendlyName;
@@ -14,7 +14,6 @@ public class DomainType {
     private Map<String, String> typeActions;
     private Map<String, String> members;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getName() {
         return name;

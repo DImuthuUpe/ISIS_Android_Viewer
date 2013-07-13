@@ -3,13 +3,14 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class Action {
+import org.codehaus.jackson.JsonNode;
+
+public class Action extends JsonRepr{
     private String id;
-    private Map<String, Parameter> parameters;
+    private List<Map<String, JsonNode>> parameters;
 
-    private String disabledReason;
+    private String memberType;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getId() {
         return id;
@@ -17,17 +18,22 @@ public class Action {
     public void setId(String id) {
         this.id = id;
     }
-    public Map<String, Parameter> getParameters() {
+    
+    
+    
+    
+    
+    public List<Map<String, JsonNode>> getParameters() {
         return parameters;
     }
-    public void setParameters(Map<String, Parameter> parameters) {
+    public void setParameters(List<Map<String, JsonNode>> parameters) {
         this.parameters = parameters;
     }
-    public String getDisabledReason() {
-        return disabledReason;
+    public String getMemberType() {
+        return memberType;
     }
-    public void setDisabledReason(String disabledReason) {
-        this.disabledReason = disabledReason;
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
     }
     public List<Link> getLinks() {
         return links;

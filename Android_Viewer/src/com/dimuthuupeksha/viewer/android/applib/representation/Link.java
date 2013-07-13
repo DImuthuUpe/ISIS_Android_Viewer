@@ -1,9 +1,12 @@
 package com.dimuthuupeksha.viewer.android.applib.representation;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class Link extends JsonRepr{
+import org.codehaus.jackson.JsonNode;
+
+public class Link implements Serializable{
     private String Id;
     private String title;
     private String rel;
@@ -11,7 +14,7 @@ public class Link extends JsonRepr{
     private String method;
     private String type;
 
-    public Map<String, List<ArgumentNodeForLink>> arguments;
+    private Map<String, Map<String,JsonNode>> arguments;
 
     public String getId() {
         return Id;
@@ -61,19 +64,13 @@ public class Link extends JsonRepr{
         this.type = type;
     }
 
-    public Map<String, List<ArgumentNodeForLink>> getArguments() {
+    public Map<String, Map<String, JsonNode>> getArguments() {
         return arguments;
     }
 
-    public void setArguments(Map<String, List<ArgumentNodeForLink>> arguments) {
+    public void setArguments(Map<String, Map<String, JsonNode>> arguments) {
         this.arguments = arguments;
     }
-    
-    
 
-    
-
-    
-    
     
 }

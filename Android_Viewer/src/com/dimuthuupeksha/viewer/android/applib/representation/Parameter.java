@@ -7,7 +7,6 @@ public class Parameter extends JsonRepr {
     private List<String> choices;
     private String Default;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public List<String> getChoices() {
         return choices;

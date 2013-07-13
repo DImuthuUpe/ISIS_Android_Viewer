@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ActionResult {
+public class ActionResult extends JsonRepr {
   /// <summary>
     /// "object", "list", "scalar" or "void"
     /// </summary>
@@ -14,7 +14,6 @@ public class ActionResult {
     /// </summary>
     /// <see cref="ResultType"/>
     private String result;
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getResultType() {
         return resultType;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Homepage extends JsonRepr{
-    private List<Link> links;
     private Map<String, String> extensions;
     public List<Link> getLinks() {
         return links;

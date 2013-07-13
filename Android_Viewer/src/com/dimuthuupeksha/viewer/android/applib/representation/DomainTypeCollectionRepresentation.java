@@ -3,13 +3,12 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class DomainTypeCollectionRepresentation {
+public class DomainTypeCollectionRepresentation extends JsonRepr{
     private String id;
     private String friendlyName;
     private String pluralForm;
     private String description;    
     private String memberOrder;
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getId() {
         return id;

@@ -27,14 +27,16 @@ public final class R {
         public static final int action_settings=0x7f080000;
     }
     public static final class layout {
-        public static final int activity_service=0x7f030000;
-        public static final int domain_service=0x7f030001;
-        public static final int list=0x7f030002;
+        public static final int activity_action=0x7f030000;
+        public static final int activity_service=0x7f030001;
+        public static final int domain_service=0x7f030002;
+        public static final int list=0x7f030003;
     }
     public static final class menu {
-        public static final int domain=0x7f070000;
-        public static final int home=0x7f070001;
-        public static final int main=0x7f070002;
+        public static final int action=0x7f070000;
+        public static final int domain=0x7f070001;
+        public static final int home=0x7f070002;
+        public static final int main=0x7f070003;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -42,6 +44,7 @@ public final class R {
         public static final int hello_world=0x7f050002;
         public static final int home_page=0x7f050004;
         public static final int services_page=0x7f050006;
+        public static final int title_activity_action=0x7f050008;
         public static final int title_activity_domain_service=0x7f050007;
         public static final int title_activity_home=0x7f050003;
         public static final int title_activity_service=0x7f050005;

@@ -23,7 +23,6 @@ public class Object extends JsonRepr{
 
     private Map<String, ObjectMember> members;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getServiceId() {
         return serviceId;

@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class Service extends JsonRepr{
     
-    private List<Link> links;
     private Map<String, String> extensions;
     private String title;
     private String serviceId;

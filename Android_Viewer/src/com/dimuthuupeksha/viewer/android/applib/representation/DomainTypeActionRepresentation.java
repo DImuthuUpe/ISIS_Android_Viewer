@@ -5,7 +5,7 @@ import java.util.Map;
 
 import android.R.bool;
 
-public class DomainTypeActionRepresentation {
+public class DomainTypeActionRepresentation extends JsonRepr{
     private String id;
     private String friendlyName;
     private String pluralForm;
@@ -17,7 +17,6 @@ public class DomainTypeActionRepresentation {
 
     private Map<String,DomainTypeActionParamRepresentation> params;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getId() {
         return id;

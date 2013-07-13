@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class ErrorRepr extends JsonRepr{
     private String message;
-
-    private List<Link> links;
     private Map<String, String> extensions;
 
     //Optional:

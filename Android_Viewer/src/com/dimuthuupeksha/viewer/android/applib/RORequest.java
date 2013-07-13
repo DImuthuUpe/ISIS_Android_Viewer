@@ -17,7 +17,7 @@ public class RORequest {
     public static RORequest To(String path)
     {
         RORequest roRequest = new RORequest();
-        roRequest._path = path;
+        roRequest._path = path.trim().replace(" ","%");
         return roRequest;
     }
 

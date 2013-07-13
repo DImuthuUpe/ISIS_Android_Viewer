@@ -12,7 +12,6 @@ public class User extends JsonRepr{
 
     private String email;
 
-    private List<Link> Links;
     private Map<String, String> extensions;
     public String getUserName() {
         return userName;
@@ -39,10 +38,10 @@ public class User extends JsonRepr{
         this.email = email;
     }
     public List<Link> getLinks() {
-        return Links;
+        return links;
     }
     public void setLinks(List<Link> links) {
-        Links = links;
+        this.links = links;
     }
     public Map<String, String> getExtensions() {
         return extensions;

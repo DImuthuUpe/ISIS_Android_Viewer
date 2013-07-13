@@ -3,7 +3,7 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class DomainTypeActionParamRepresentation {
+public class DomainTypeActionParamRepresentation extends JsonRepr{
     private String id;
     private String name;
     private int number;
@@ -16,7 +16,6 @@ public class DomainTypeActionParamRepresentation {
     private String pattern;
     private String format;
 
-    private List<Link> links;
     private Map<String, String> extensions;
     public String getId() {
         return id;

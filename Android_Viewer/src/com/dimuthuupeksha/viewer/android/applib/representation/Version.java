@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class Version extends JsonRepr{
     
-    private List<Link> links;
     private Map<String, String> extensions;
     private String specVersion;
     private String implVersion;

@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class DomainTypes extends JsonRepr{
     private List<Link> values;
-    private List<Link> links;
     private Map<String, String> extensions;
     public List<Link> getValues() {
         return values;
