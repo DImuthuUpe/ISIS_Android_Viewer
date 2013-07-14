@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
+import com.dimuthuupeksha.viewer.android.applib.RORequest;
+import com.dimuthuupeksha.viewer.android.applib.representation.Action;
+import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
+import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.Service;
 import com.dimuthuupeksha.viewer.android.applib.representation.ServiceMember;
@@ -36,15 +40,16 @@ public class DomainServiceActivity extends ListActivity {
     
     private Service service=null;
     private void render(Service service){
+        new FriendlyNameFetcherTask(DomainServiceActivity.this).execute(service);
         this.service=service;
-        Map<String,ServiceMember> members = service.getMembers();
-        List<String> items = new ArrayList<String>();
-        String[] temp={};
-        for(String id: members.keySet().toArray(temp)){
-            items.add(id);
-        }
-        String[] values = items.toArray(new String[items.size()]);
-        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values));
+        
+    }
+    
+    private String[] friendlyNames;
+    
+    private void renderWithFirendlyNames(String names[]){        
+        friendlyNames=names;
+        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names));
     }
     
     @Override
@@ -56,18 +61,14 @@ public class DomainServiceActivity extends ListActivity {
         ServiceMember selectedMember = members.get(selected);
         Intent intent = new Intent(DomainServiceActivity.this, ActionActivity.class);
         intent.putExtra("member", selectedMember);
-        intent.putExtra("title", selected);
+        intent.putExtra("title", friendlyNames[position]);
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.domain, menu);
-        return true;
-    }
+    
     
     private class DomainServiceTask extends AsyncTask<Link, Void, Service>{
+
         private final ProgressDialog pd;
         private DomainServiceActivity activity;
         
@@ -102,4 +103,37 @@ public class DomainServiceActivity extends ListActivity {
         
     }
 
+    private class FriendlyNameFetcherTask extends AsyncTask<Service, Void, String[]>{
+        
+        DomainServiceActivity activity;
+        public FriendlyNameFetcherTask(DomainServiceActivity activity) {
+            this.activity=activity;
+        }
+        @Override
+        protected String[] doInBackground(Service... params) {
+            Service service = params[0];
+            Map<String, ServiceMember> members = service.getMembers();
+            String memberIds[]=new String[members.keySet().size()];
+            memberIds= members.keySet().toArray(memberIds);
+            for(int i=0;i<memberIds.length;i++){
+                Link detailLink = members.get(memberIds[i]).getLinkByRel("details");
+                String href = detailLink.getHref();
+                RORequest request = ROClient.getInstance().RORequestTo(href);
+                Action action= ROClient.getInstance().executeT(Action.class, "GET", request, null);
+                request = ROClient.getInstance().RORequestTo(action.getLinkByRel("describedby").getHref());
+                DomainTypeAction dta = ROClient.getInstance().executeT(DomainTypeAction.class, "GET", request, null);
+                System.out.println(dta.getExtensions().get("friendlyName"));
+                memberIds[i]=dta.getExtensions().get("friendlyName");
+            }
+            
+            return memberIds;
+        }
+        
+        @Override
+        protected void onPostExecute(String[] result) {
+            
+            activity.renderWithFirendlyNames(result);
+        }
+        
+    }
 }

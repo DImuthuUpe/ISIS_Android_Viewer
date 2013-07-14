@@ -13,6 +13,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ListRepr;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
@@ -26,6 +27,9 @@ public class InvokeActionActivity extends Activity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_invoke_action);
         Action action = (Action)getIntent().getSerializableExtra("action");
+        String title = (String)getIntent().getSerializableExtra("title");
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(title);
         new RepresentationSelectorTask(InvokeActionActivity.this).execute(action);
     }
     
@@ -72,6 +76,7 @@ public class InvokeActionActivity extends Activity {
             if(domainType.getCanonicalName().equals("java.util.List")){
                 request= ROClient.getInstance().RORequestTo(params[0].getLinkByRel("invoke").getHref());
                 result = ROClient.getInstance().executeT(ListRepr.class, params[0].getLinkByRel("invoke").getMethod(), request, null); 
+                
             }
             return result;
         }

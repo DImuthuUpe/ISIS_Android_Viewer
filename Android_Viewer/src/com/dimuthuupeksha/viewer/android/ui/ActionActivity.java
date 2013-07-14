@@ -34,17 +34,16 @@ import android.widget.ViewFlipper;
 
 public class ActionActivity extends Activity {
     private Action action;
+    private String title;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         ServiceMember member = (ServiceMember) getIntent().getSerializableExtra("member");
-        String title = (String)getIntent().getSerializableExtra("title");
+        title = (String)getIntent().getSerializableExtra("title");
         ActionBar actionBar = getActionBar();
-        actionBar.setTitle(title);
-        
-        
+        actionBar.setTitle(title);        
         System.out.println(member.getLinks().get(0).getHref());
         new ActionTask(ActionActivity.this).execute(member);
     }
@@ -57,6 +56,7 @@ public class ActionActivity extends Activity {
         }else{
             Intent intent = new Intent(ActionActivity.this,InvokeActionActivity.class);
             intent.putExtra("action", action);
+            intent.putExtra("title", title);
             startActivity(intent);
             
         }

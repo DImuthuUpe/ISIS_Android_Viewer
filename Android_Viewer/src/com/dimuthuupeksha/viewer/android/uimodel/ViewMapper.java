@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 public class ViewMapper {
     public static View convertToView(String type,Context context){
-
         if(type.equals("java.lang.Long")){
             return new EditText(context);
         }else if(type.equals("boolean")){
@@ -23,7 +22,6 @@ public class ViewMapper {
         }else if(type.equals("java.math.BigDecimal")){
             return new EditText(context );
         }
-
         return null;
     }
 }
