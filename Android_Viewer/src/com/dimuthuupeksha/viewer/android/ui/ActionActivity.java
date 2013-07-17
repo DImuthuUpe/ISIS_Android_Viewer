@@ -1,19 +1,28 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
+import com.dimuthuupeksha.viewer.android.applib.representation.DObject;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeActionParam;
 import com.dimuthuupeksha.viewer.android.applib.representation.ServiceMember;
 import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -98,7 +108,23 @@ public class ActionActivity extends Activity {
                 
             }
         }
-        
+        Button submitButton = new Button(this);
+        submitButton.setText("Submit");
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                System.out.println(action.getLinkByRel("invoke").getHref());
+                Map<String, String> args = new HashMap<String, String>();
+                args.put("description", "Des5");
+                args.put("category", "Professional");
+                args.put("dueBy",null);
+                args.put("cost", "10.5");   
+                new TempTask().execute(args);
+                //System.out.println(response);
+            }
+        });
+        layout.addView(submitButton);
         setContentView(layout);
     }
 
@@ -169,6 +195,38 @@ public class ActionActivity extends Activity {
         @Override
         protected void onPostExecute(List<DomainType> result) {
             renderArguments(result);
+        }
+        
+    }
+    
+    private class TempTask extends AsyncTask<Map<String, String>, Void, List<String>>{
+
+        @Override
+        protected List<String> doInBackground(Map<String, String>... params) {
+            RORequest request = ROClient.getInstance().RORequestTo(action.getLinkByRel("invoke").getHref());
+            //HttpResponse response= ROClient.getInstance().execute("POST",request, params[0]);
+            //System.out.println(response);
+            
+            //HttpEntity httpEntity = response.getEntity();
+            //BufferedReader reader;
+            //try {
+              //  reader = new BufferedReader(new InputStreamReader(
+                //        httpEntity.getContent(), "iso-8859-1"), 8);
+                //String line = null;
+                //while ((line = reader.readLine()) != null) {
+                 //   System.out.println(line);
+                //}
+            //}catch (Exception e) {
+              //  e.printStackTrace();
+            //}
+            
+            DObject dObject = ROClient.getInstance().executeT(DObject.class, action.getLinkByRel("invoke").getMethod(), request, params[0]);
+            System.out.println(dObject.getMessage());
+            System.out.println(dObject.getResult().getTitle());
+            System.out.println(dObject.getResult().getMembers().get("category").getValue());
+            System.out.println(dObject.getResult().getMembers().get("category").x_isis_format);
+            
+            return null;
         }
         
     }

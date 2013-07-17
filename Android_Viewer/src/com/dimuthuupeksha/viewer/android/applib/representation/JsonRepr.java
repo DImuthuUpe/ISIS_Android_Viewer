@@ -10,7 +10,7 @@ public class JsonRepr implements Serializable{
     public static <T> T FromString(String str){
         return null;
     }
-    private static <T> T AsT(Object list){
+    private static <T> T AsT(DObject list){
         return (T) list;
     }
 
