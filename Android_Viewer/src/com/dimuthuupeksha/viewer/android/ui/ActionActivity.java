@@ -35,6 +35,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
@@ -73,6 +75,8 @@ public class ActionActivity extends Activity {
         
     }
     
+    private Map<String,View> viewMap = new HashMap<String,View>();
+    
     private void renderArguments(List<DomainType> domainTypes){
         LinearLayout layout = new LinearLayout(this);
         
@@ -87,7 +91,8 @@ public class ActionActivity extends Activity {
             
             if(!parameters.get(i).containsKey("choices")){
                 View argsView= ViewMapper.convertToView(domainTypes.get(i).getCanonicalName(),this);
-                if(argsView!=null){                
+                if(argsView!=null){
+                    viewMap.put(parameters.get(i).get("id").getValueAsText(),argsView);
                     layout.addView(argsView);
                 }
             }else{
@@ -104,6 +109,7 @@ public class ActionActivity extends Activity {
                 ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this,
                     android.R.layout.simple_spinner_dropdown_item,choices);
                 spinner.setAdapter(spinnerArrayAdapter);
+                viewMap.put(parameters.get(i).get("id").getValueAsText(),spinner);
                 layout.addView(spinner);
                 
             }
@@ -111,16 +117,44 @@ public class ActionActivity extends Activity {
         Button submitButton = new Button(this);
         submitButton.setText("Submit");
         submitButton.setOnClickListener(new View.OnClickListener() {
-            
+             
             @Override
             public void onClick(View v) {
                 System.out.println(action.getLinkByRel("invoke").getHref());
-                Map<String, String> args = new HashMap<String, String>();
-                args.put("description", "Des5");
-                args.put("category", "Professional");
-                args.put("dueBy",null);
-                args.put("cost", "10.5");   
-                new TempTask().execute(args);
+                Map<String, Object> args = new HashMap<String, Object>();
+                
+                for(Object id:viewMap.keySet().toArray()){
+                    View view = viewMap.get((String)id);
+                    Object value= null;
+                    if(view instanceof EditText){                        
+                        value=((EditText)view).getText().toString();
+                    }else if(view instanceof DatePicker){
+                        String year=((DatePicker)view).getYear()+"";
+                        String month= ((DatePicker)view).getMonth()+"";
+                        String day = ((DatePicker)view).getDayOfMonth()+"";
+                        
+                        if(month.length()==1){
+                            month="0"+month;
+                        }
+                        if(day.length()==1){
+                            day="0"+day;
+                        }
+                        
+                        value= year+month+day;
+                    }else if(view instanceof Spinner){
+                       value= ((Spinner)view).getSelectedItem().toString();
+                    }
+                    args.put((String)id, value);
+                }
+                
+                
+                action.setArgs(args);
+                Intent intent = new Intent(ActionActivity.this,InvokeActionActivity.class);
+                intent.putExtra("action", action);
+                intent.putExtra("title", title);
+                
+                startActivity(intent);
+                //new TempTask().execute(args);
                 //System.out.println(response);
             }
         });
@@ -199,32 +233,32 @@ public class ActionActivity extends Activity {
         
     }
     
-    private class TempTask extends AsyncTask<Map<String, String>, Void, List<String>>{
+    private class TempTask extends AsyncTask<Map<String, Object>, Void, List<String>>{
 
         @Override
-        protected List<String> doInBackground(Map<String, String>... params) {
+        protected List<String> doInBackground(Map<String, Object>... params) {
             RORequest request = ROClient.getInstance().RORequestTo(action.getLinkByRel("invoke").getHref());
-            //HttpResponse response= ROClient.getInstance().execute("POST",request, params[0]);
-            //System.out.println(response);
+            HttpResponse response= ROClient.getInstance().execute("POST",request, params[0]);
+            System.out.println(response);
             
-            //HttpEntity httpEntity = response.getEntity();
-            //BufferedReader reader;
-            //try {
-              //  reader = new BufferedReader(new InputStreamReader(
-                //        httpEntity.getContent(), "iso-8859-1"), 8);
-                //String line = null;
-                //while ((line = reader.readLine()) != null) {
-                 //   System.out.println(line);
-                //}
-            //}catch (Exception e) {
-              //  e.printStackTrace();
-            //}
+            HttpEntity httpEntity = response.getEntity();
+            BufferedReader reader;
+            try {
+                reader = new BufferedReader(new InputStreamReader(
+                       httpEntity.getContent(), "iso-8859-1"), 8);
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                   System.out.println(line);
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             
-            DObject dObject = ROClient.getInstance().executeT(DObject.class, action.getLinkByRel("invoke").getMethod(), request, params[0]);
-            System.out.println(dObject.getMessage());
-            System.out.println(dObject.getResult().getTitle());
-            System.out.println(dObject.getResult().getMembers().get("category").getValue());
-            System.out.println(dObject.getResult().getMembers().get("category").x_isis_format);
+            //DObject dObject = ROClient.getInstance().executeT(DObject.class, action.getLinkByRel("invoke").getMethod(), request, params[0]);
+            //System.out.println(dObject.getMessage());
+            //System.out.println(dObject.getResult().getTitle());
+            //System.out.println(dObject.getResult().getMembers().get("category").getValue());
+            //System.out.println(dObject.getResult().getMembers().get("category").x_isis_format);
             
             return null;
         }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
+import com.dimuthuupeksha.viewer.android.applib.representation.DObject;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
@@ -19,13 +20,13 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class InvokeActionActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_invoke_action);
         Action action = (Action)getIntent().getSerializableExtra("action");
         String title = (String)getIntent().getSerializableExtra("title");
         ActionBar actionBar = getActionBar();
@@ -47,6 +48,21 @@ public class InvokeActionActivity extends Activity {
         layout.addView(listView);
         setContentView(layout);
         
+    }
+    
+    private void renderDObject(DObject dObject){
+        if(dObject.getMessage()!=null){
+            System.out.println("Message "+dObject.getMessage());
+        }
+        String title = dObject.getResult().getTitle();
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(title);
+        LinearLayout layout = new LinearLayout(this);        
+        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+        TextView titleView = new TextView(this);
+        titleView.setText(title);
+        layout.addView(titleView);
+        setContentView(layout);
     }
 
     @Override
@@ -77,6 +93,10 @@ public class InvokeActionActivity extends Activity {
                 request= ROClient.getInstance().RORequestTo(params[0].getLinkByRel("invoke").getHref());
                 result = ROClient.getInstance().executeT(ListRepr.class, params[0].getLinkByRel("invoke").getMethod(), request, null); 
                 
+            }else{
+                request= ROClient.getInstance().RORequestTo(params[0].getLinkByRel("invoke").getHref());
+                result = ROClient.getInstance().executeT(DObject.class, params[0].getLinkByRel("invoke").getMethod(), request, params[0].getArgs()); 
+                
             }
             return result;
         }
@@ -89,8 +109,11 @@ public class InvokeActionActivity extends Activity {
         @Override
         protected void onPostExecute(JsonRepr result) {
             if(result instanceof ListRepr){
-                System.out.println("Done");
+                System.out.println("ist Renderne");
                 renderList((ListRepr)result);
+            }else if(result instanceof DObject){
+                System.out.println("DObject render");
+                renderDObject((DObject)result);
             }
         }
         

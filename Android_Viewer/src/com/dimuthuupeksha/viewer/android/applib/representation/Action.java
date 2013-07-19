@@ -7,10 +7,19 @@ import org.codehaus.jackson.JsonNode;
 
 public class Action extends JsonRepr{
     private String id;
-    private List<Map<String, JsonNode>> parameters;
+    private transient List<Map<String, JsonNode>> parameters;
+    private Map<String, Object> args=null;
 
     private String memberType;
 
+    
+    
+    public Map<String, Object> getArgs() {
+        return args;
+    }
+    public void setArgs(Map<String, Object> args) {
+        this.args = args;
+    }
     private Map<String, String> extensions;
     public String getId() {
         return id;

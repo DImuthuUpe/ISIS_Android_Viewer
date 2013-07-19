@@ -1,6 +1,8 @@
 package com.dimuthuupeksha.viewer.android.applib;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
 import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
@@ -68,7 +71,7 @@ public class ROClient {
 
     
     
-    public HttpResponse execute(String httpMethod, RORequest roRequest, Map<String,String> args){
+    public HttpResponse execute(String httpMethod, RORequest roRequest, Map<String,Object> args){
         
         if(httpMethod.equals("GET")){
             //HttpClient client = HttpHelper.getInstance().getClient();
@@ -94,13 +97,13 @@ public class ROClient {
                 if(args!=null){                    
                     
                     
-                    Map argmap =  new HashMap<String, Map<String, String>>();
+                    Map argmap =  new HashMap<String, Map<String, Object>>();
 
                     String[] params={};
                     params = args.keySet().toArray(params);
                     
                     for(String param:params){
-                        Map value = new HashMap<String, String>();
+                        Map value = new HashMap<String, Object>();
                         value.put("value",args.get(param));
                         argmap.put(param, value);
                     }
@@ -114,6 +117,24 @@ public class ROClient {
                 
                 HttpResponse response = client.execute(post);
                 System.out.println("Status code "+response.getStatusLine().getStatusCode());
+                
+                ///////////////////Print response/////////////////////
+                /*
+                HttpEntity httpEntity = response.getEntity();
+                BufferedReader reader;
+                try {
+                    reader = new BufferedReader(new InputStreamReader(
+                           httpEntity.getContent(), "iso-8859-1"), 8);
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                       System.out.println(line);
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
+                */
+                //////////////////////////////////////////
                 return response;
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -124,7 +145,7 @@ public class ROClient {
       return null;  
     }
     
-    public <T extends JsonRepr> T executeT(Class<T> t,String httpMethod, RORequest roRequest, Map<String,String> args){
+    public <T extends JsonRepr> T executeT(Class<T> t,String httpMethod, RORequest roRequest, Map<String,Object> args){
         HttpResponse response = execute(httpMethod, roRequest, args);        
         try {
             String json = EntityUtils.toString(response.getEntity());
@@ -147,17 +168,17 @@ public class ROClient {
     }
 
 
-    public <T extends JsonRepr> T get(Class<T> t,String path, Map<String,String> args){
+    public <T extends JsonRepr> T get(Class<T> t,String path, Map<String,Object> args){
         return executeT(t, "GET", RORequestTo(path), args);        
         
     }
-    public <T extends JsonRepr> T post(Class<T> t,String uri, Map<String,String> args){
+    public <T extends JsonRepr> T post(Class<T> t,String uri, Map<String,Object> args){
         return executeT(t, "POST", RORequestTo(uri), args); 
     }
-    public <T extends JsonRepr> T put(Class<T> t,String uri, Map<String,String> args){
+    public <T extends JsonRepr> T put(Class<T> t,String uri, Map<String,Object> args){
         return executeT(t, "PUT", RORequestTo(uri), args);
     }
-    public <T extends JsonRepr> T delete(Class<T> t,String uri, Map<String,String> args){
+    public <T extends JsonRepr> T delete(Class<T> t,String uri, Map<String,Object> args){
         return executeT(t, "DELETE", RORequestTo(uri), args);
     }
 
