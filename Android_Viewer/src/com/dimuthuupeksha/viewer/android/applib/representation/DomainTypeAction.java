@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.R.bool;
-
+//http://localhost:8080/restful/domain-types/TODO/actions/similarTo
 public class DomainTypeAction extends JsonRepr{
     private String id;
     private String memberType;

@@ -12,7 +12,6 @@ import java.util.Map;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
-import com.dimuthuupeksha.viewer.android.applib.representation.DObject;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeActionParam;
@@ -52,12 +51,12 @@ public class ActionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        ServiceMember member = (ServiceMember) getIntent().getSerializableExtra("member");
+        Link detailLink = (Link) getIntent().getSerializableExtra("detailLink");
         title = (String)getIntent().getSerializableExtra("title");
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);        
-        System.out.println(member.getLinks().get(0).getHref());
-        new ActionTask(ActionActivity.this).execute(member);
+        System.out.println(detailLink.getHref());
+        new ActionTask(ActionActivity.this).execute(detailLink);
     }
     
     private void render(Action action){
@@ -66,7 +65,7 @@ public class ActionActivity extends Activity {
         if(!invokeLink.getArguments().isEmpty()){
             new DomainTypeFetcherTask(ActionActivity.this).execute(action);
         }else{
-            Intent intent = new Intent(ActionActivity.this,InvokeActionActivity.class);
+            Intent intent = new Intent(ActionActivity.this,ActionResultActivity.class);
             intent.putExtra("action", action);
             intent.putExtra("title", title);
             startActivity(intent);
@@ -149,7 +148,7 @@ public class ActionActivity extends Activity {
                 
                 
                 action.setArgs(args);
-                Intent intent = new Intent(ActionActivity.this,InvokeActionActivity.class);
+                Intent intent = new Intent(ActionActivity.this,ActionResultActivity.class);
                 intent.putExtra("action", action);
                 intent.putExtra("title", title);
                 
@@ -169,7 +168,7 @@ public class ActionActivity extends Activity {
         return true;
     }
     
-    private class ActionTask extends AsyncTask<ServiceMember, Void, Action>{
+    private class ActionTask extends AsyncTask<Link, Void, Action>{
 
         private final ProgressDialog pd;
         private final ActionActivity activity;
@@ -186,9 +185,9 @@ public class ActionActivity extends Activity {
         }
         
         @Override
-        protected Action doInBackground(ServiceMember... members) {
-            RORequest request = ROClient.getInstance().RORequestTo(members[0].getLinks().get(0).getHref());
-            Action action= ROClient.getInstance().executeT(Action.class, members[0].getLinks().get(0).getMethod(), request, null);
+        protected Action doInBackground(Link... links) {
+            RORequest request = ROClient.getInstance().RORequestTo(links[0].getHref());
+            Action action= ROClient.getInstance().executeT(Action.class, links[0].getMethod(), request, null);
             return action;
         }
         

@@ -3,41 +3,31 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class ActionResult extends JsonRepr {
-  /// <summary>
-    /// "object", "list", "scalar" or "void"
-    /// </summary>
-    private String resultType;
+import org.codehaus.jackson.JsonNode;
 
-    /// <summary>
-    /// Per the result type, may be cast to either ObjectRepr, ListRepr or ScalarRepr.
-    /// </summary>
-    /// <see cref="ResultType"/>
-    private String result;
-    private Map<String, String> extensions;
-    public String getResultType() {
-        return resultType;
+public class ActionResult extends JsonRepr {
+    private String resulttype;
+    private ActionResultItem result;
+    private Map<String, JsonNode> extensions;
+    
+    public String getResulttype() {
+        return resulttype;
     }
-    public void setResultType(String resultType) {
-        this.resultType = resultType;
+    public void setResulttype(String resulttype) {
+        this.resulttype = resulttype;
     }
-    public String getResult() {
+    public ActionResultItem getResult() {
         return result;
     }
-    public void setResult(String result) {
+    public void setResult(ActionResultItem result) {
         this.result = result;
     }
-    public List<Link> getLinks() {
-        return links;
-    }
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-    public Map<String, String> getExtensions() {
+    public Map<String, JsonNode> getExtensions() {
         return extensions;
     }
-    public void setExtensions(Map<String, String> extensions) {
+    public void setExtensions(Map<String, JsonNode> extensions) {
         this.extensions = extensions;
     }
+    
     
 }

@@ -8,7 +8,6 @@ import com.dimuthuupeksha.viewer.android.applib.UrlTemplate;
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
 import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.ListRepr;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 

@@ -1,16 +1,23 @@
 package com.dimuthuupeksha.viewer.android.applib.representation;
 
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
-public class ObjectResult extends JsonRepr{
-
-    private Map<String, JsonNode> extensions;
-    private String title;
-    private String domainType;
-    private String instanceId;
-    private Map<String, ObjectMember> members;
+public class ActionResultItem extends JsonRepr{
+    private List<Link> value;//for lists
+    private Map<String, JsonNode> extensions;//for lists,object
+    private String title;//for object
+    private String domainType;//for object
+    private String instanceId;//for object
+    private Map<String, ObjectMember> members;//for object
+    public List<Link> getValue() {
+        return value;
+    }
+    public void setValue(List<Link> value) {
+        this.value = value;
+    }
     public Map<String, JsonNode> getExtensions() {
         return extensions;
     }

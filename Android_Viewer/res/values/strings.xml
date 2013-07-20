@@ -11,5 +11,7 @@
     <string name="title_activity_domain_service">DomainServiceActivity</string>
     <string name="title_activity_action">ActionActivity</string>
     <string name="title_activity_invoke_action">InvokeActionActivity</string>
+    <string name="title_activity_list_render">ListRenderActivity</string>
+    <string name="title_activity_object_render">ObjectRenderActivity</string>
 
 </resources>
