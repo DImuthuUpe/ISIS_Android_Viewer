@@ -13,5 +13,6 @@
     <string name="title_activity_invoke_action">InvokeActionActivity</string>
     <string name="title_activity_list_render">ListRenderActivity</string>
     <string name="title_activity_object_render">ObjectRenderActivity</string>
+    <string name="title_activity_scalar_render">ScalarRenderActivity</string>
 
 </resources>

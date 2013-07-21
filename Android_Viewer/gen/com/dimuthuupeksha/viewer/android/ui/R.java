@@ -34,9 +34,10 @@ public final class R {
         public static final int activity_list_render=0x7f030002;
         public static final int activity_list_render2=0x7f030003;
         public static final int activity_object_render=0x7f030004;
-        public static final int activity_service=0x7f030005;
-        public static final int domain_service=0x7f030006;
-        public static final int list=0x7f030007;
+        public static final int activity_scalar_render=0x7f030005;
+        public static final int activity_service=0x7f030006;
+        public static final int domain_service=0x7f030007;
+        public static final int list=0x7f030008;
     }
     public static final class menu {
         public static final int action=0x7f070000;
@@ -46,6 +47,7 @@ public final class R {
         public static final int list_render=0x7f070004;
         public static final int main=0x7f070005;
         public static final int object_render=0x7f070006;
+        public static final int scalar_render=0x7f070007;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -59,6 +61,7 @@ public final class R {
         public static final int title_activity_invoke_action=0x7f050009;
         public static final int title_activity_list_render=0x7f05000a;
         public static final int title_activity_object_render=0x7f05000b;
+        public static final int title_activity_scalar_render=0x7f05000c;
         public static final int title_activity_service=0x7f050005;
     }
     public static final class style {

@@ -58,7 +58,9 @@ public class ObjectRenderActivity extends TabActivity {
         final ActionResultItem result = JsonRepr.fromString(ActionResultItem.class, data);
         System.out.println(result.getLinkByRel("describedby").getHref());
         String title = result.getTitle();
-
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(title);
+        
         Map<String,ObjectMember> propertyMembers = new HashMap<String,ObjectMember>();
         Map<String,ObjectMember> actionMembers = new HashMap<String,ObjectMember>();
         Map<String,ObjectMember> collectionMembers = new HashMap<String,ObjectMember>();

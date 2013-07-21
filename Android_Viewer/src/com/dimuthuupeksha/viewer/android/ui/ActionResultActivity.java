@@ -66,6 +66,23 @@ public class ActionResultActivity extends Activity {
         }
         
     }
+    
+    private void renderScalar(ActionResult result){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String data = mapper.writeValueAsString(result);
+            Intent intent = new Intent(ActionResultActivity.this,ScalarRenderActivity.class);
+            intent.putExtra("data", data);
+            startActivity(intent);
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,6 +119,9 @@ public class ActionResultActivity extends Activity {
             }else if(result.getResulttype().equals("domainobject")){
                 System.out.println("DObject render");
                 renderDObject(result.getResult());
+            }else if(result.getResulttype().equals("scalarvalue")){
+                System.out.println("scalar render");
+                renderScalar(result);
             }
         }
         

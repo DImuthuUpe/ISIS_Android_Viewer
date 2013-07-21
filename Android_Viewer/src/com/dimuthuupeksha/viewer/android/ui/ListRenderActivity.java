@@ -38,7 +38,7 @@ public class ListRenderActivity extends Activity {
         String data = (String)getIntent().getSerializableExtra("data");
         final ActionResult listRepr = JsonRepr.fromString(ActionResult.class, data);
         ListView listView = new ListView(this);
-        List<Link> values = listRepr.getResult().getValue();
+        List<Link> values = listRepr.getResult().getValueAsList();
         String[] titles = new String[values.size()];
         for(int i=0;i<values.size();i++){
             titles[i]=values.get(i).getTitle();
@@ -48,8 +48,8 @@ public class ListRenderActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-            System.out.println(listRepr.getResult().getValue().get(position).getHref());
-             new ListItemResolveTask().execute(listRepr.getResult().getValue().get(position));
+            System.out.println("list "+ listRepr.getResult().getValueAsList().get(position).getHref());
+             new ListItemResolveTask().execute(listRepr.getResult().getValueAsList().get(position));
              }
       });
       LinearLayout layout = new LinearLayout(this);
