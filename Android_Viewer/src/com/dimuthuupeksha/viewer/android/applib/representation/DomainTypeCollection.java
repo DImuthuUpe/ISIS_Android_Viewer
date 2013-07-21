@@ -3,18 +3,12 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
-public class DomainTypePropertyRepresentation extends JsonRepr{
+public class DomainTypeCollection extends JsonRepr{
     private String id;
     private String friendlyName;
-    private String description;
-
-    private boolean optional;
-    private int maxLength;
-    private String pattern;
-    private String format;
-
+    private String pluralForm;
+    private String description;    
     private String memberOrder;
-
     private Map<String, String> extensions;
     public String getId() {
         return id;
@@ -28,35 +22,17 @@ public class DomainTypePropertyRepresentation extends JsonRepr{
     public void setFriendlyName(String friendlyName) {
         this.friendlyName = friendlyName;
     }
+    public String getPluralForm() {
+        return pluralForm;
+    }
+    public void setPluralForm(String pluralForm) {
+        this.pluralForm = pluralForm;
+    }
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-    public boolean isOptional() {
-        return optional;
-    }
-    public void setOptional(boolean optional) {
-        this.optional = optional;
-    }
-    public int getMaxLength() {
-        return maxLength;
-    }
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
-    }
-    public String getPattern() {
-        return pattern;
-    }
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
-    public String getFormat() {
-        return format;
-    }
-    public void setFormat(String format) {
-        this.format = format;
     }
     public String getMemberOrder() {
         return memberOrder;
@@ -76,7 +52,6 @@ public class DomainTypePropertyRepresentation extends JsonRepr{
     public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
-    
     
     
 }

@@ -11,9 +11,17 @@ public class Action extends JsonRepr{
     private Map<String, Object> args=null;
 
     private String memberType;
+    private String disabledReason;
 
     
     
+    
+    public String getDisabledReason() {
+        return disabledReason;
+    }
+    public void setDisabledReason(String disabledReason) {
+        this.disabledReason = disabledReason;
+    }
     public Map<String, Object> getArgs() {
         return args;
     }

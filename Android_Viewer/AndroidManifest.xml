@@ -48,6 +48,9 @@
             android:name="com.dimuthuupeksha.viewer.android.ui.ObjectRenderActivity"
             android:label="@string/title_activity_object_render" >
         </activity>
+        <activity android:name="com.dimuthuupeksha.viewer.android.ui.ObjectPropertyRenderActivity" />
+        <activity android:name="com.dimuthuupeksha.viewer.android.ui.ObjectActionRenderActivity" />
+        <activity android:name="com.dimuthuupeksha.viewer.android.ui.ObjectCollectionRenderActivity" />
     </application>
 
 </manifest>

@@ -89,7 +89,7 @@ public class ActionActivity extends Activity {
             layout.addView(tv);
             
             if(!parameters.get(i).containsKey("choices")){
-                View argsView= ViewMapper.convertToView(domainTypes.get(i).getCanonicalName(),this);
+                View argsView= ViewMapper.convertToView(domainTypes.get(i).getCanonicalName(),this,null);
                 if(argsView!=null){
                     viewMap.put(parameters.get(i).get("id").getValueAsText(),argsView);
                     layout.addView(argsView);
