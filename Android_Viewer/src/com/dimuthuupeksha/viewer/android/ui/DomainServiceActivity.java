@@ -60,7 +60,8 @@ public class DomainServiceActivity extends ListActivity {
         String selected= members.keySet().toArray(temp)[position];
         ServiceMember selectedMember = members.get(selected);
         Intent intent = new Intent(DomainServiceActivity.this, ActionActivity.class);
-        intent.putExtra("detailLink", selectedMember.getLinks().get(0));
+        String detailLink = selectedMember.getLinks().get(0).AsJson();
+        intent.putExtra("detailLink",detailLink );
         intent.putExtra("title", friendlyNames[position]);
         startActivity(intent);
     }

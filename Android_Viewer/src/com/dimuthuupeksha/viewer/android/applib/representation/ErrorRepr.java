@@ -3,31 +3,18 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
+
 public class ErrorRepr extends JsonRepr{
     private String message;
-    private Map<String, String> extensions;
-
-    //Optional:
     private List<String> stackTrace;
-    private ErrorRepr causedBy;
+    private Map<String, JsonNode> causedBy;
+    private JsonNode extensions;
     public String getMessage() {
         return message;
     }
     public void setMessage(String message) {
         this.message = message;
-    }
-    public List<Link> getLinks() {
-        return links;
-    }
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-    
-    public Map<String, String> getExtensions() {
-        return extensions;
-    }
-    public void setExtensions(Map<String, String> extensions) {
-        this.extensions = extensions;
     }
     public List<String> getStackTrace() {
         return stackTrace;
@@ -35,12 +22,20 @@ public class ErrorRepr extends JsonRepr{
     public void setStackTrace(List<String> stackTrace) {
         this.stackTrace = stackTrace;
     }
-    public ErrorRepr getCausedBy() {
+    public Map<String, JsonNode> getCausedBy() {
         return causedBy;
     }
-    public void setCausedBy(ErrorRepr causedBy) {
+    public void setCausedBy(Map<String, JsonNode> causedBy) {
         this.causedBy = causedBy;
     }
+    public JsonNode getExtensions() {
+        return extensions;
+    }
+    public void setExtensions(JsonNode extensions) {
+        this.extensions = extensions;
+    }
+
+    
     
     
 }

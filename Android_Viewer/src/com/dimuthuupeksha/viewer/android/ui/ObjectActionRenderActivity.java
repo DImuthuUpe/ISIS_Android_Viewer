@@ -12,6 +12,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeProperty;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 
 import org.apache.http.impl.client.RoutedRequest;
@@ -19,8 +20,11 @@ import org.apache.http.impl.client.RoutedRequest;
 import android.R;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -63,7 +67,9 @@ public class ObjectActionRenderActivity extends ListActivity {
         }
     }
 
+    private Map<String,Map<String, Object>> referenceMap;
     private void render(Map<String,Map<String, Object>> referenceMap){
+      this.referenceMap = referenceMap;
       String[] actionTitles = new String[referenceMap.keySet().size()];
       actionTitles = referenceMap.keySet().toArray(actionTitles);
       for(int i=0;i<actionTitles.length;i++){
@@ -71,7 +77,26 @@ public class ObjectActionRenderActivity extends ListActivity {
       }
       ListView view = getListView();
       view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item_1, actionTitles));
+    
     }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String[] actionIds = new String[referenceMap.keySet().size()];
+        actionIds = referenceMap.keySet().toArray(actionIds);
+        String selectedId = actionIds[position];
+        System.out.println(selectedId);
+        ObjectMember member = actionMembers.get(selectedId);
+        Link detailLink = member.getLinkByRel("details");
+        String data = detailLink.AsJson();
+        Intent intent = new Intent(this,ActionActivity.class); //pass details link to ActionAction class to render the action
+        intent.putExtra("detailLink", data);
+        intent.putExtra("title", "My Title");
+        startActivity(intent);
+        
+    }
+    
+    
 
     private class ResolveReferenceTask extends AsyncTask<Void, Void, Map<String,Map<String,Object>>>{
 

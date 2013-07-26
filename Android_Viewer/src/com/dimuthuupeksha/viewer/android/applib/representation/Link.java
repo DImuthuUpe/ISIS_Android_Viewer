@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
-public class Link implements Serializable{
+public class Link extends JsonRepr{
     private String Id;
     private String title;
     private String rel;

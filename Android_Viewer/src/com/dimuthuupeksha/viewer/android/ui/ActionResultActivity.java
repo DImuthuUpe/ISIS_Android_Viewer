@@ -102,6 +102,9 @@ public class ActionResultActivity extends Activity {
         @Override
         protected ActionResult doInBackground(Action... params) {            
           RORequest request= ROClient.getInstance().RORequestTo(params[0].getLinkByRel("invoke").getHref());
+          System.out.println("Invoke href "+params[0].getLinkByRel("invoke").getHref());
+          System.out.println("Invoke method "+params[0].getLinkByRel("invoke").getMethod());
+          
           ActionResult result = ROClient.getInstance().executeT(ActionResult.class, params[0].getLinkByRel("invoke").getMethod(), request, params[0].getArgs()); 
           return result;
         }

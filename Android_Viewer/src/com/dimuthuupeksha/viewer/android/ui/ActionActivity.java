@@ -13,6 +13,7 @@ import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
+import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeActionParam;
 import com.dimuthuupeksha.viewer.android.applib.representation.ServiceMember;
@@ -51,7 +52,8 @@ public class ActionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        Link detailLink = (Link) getIntent().getSerializableExtra("detailLink");
+        String data = (String) getIntent().getSerializableExtra("detailLink");
+        Link detailLink = JsonRepr.fromString(Link.class, data);
         title = (String)getIntent().getSerializableExtra("title");
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);        
