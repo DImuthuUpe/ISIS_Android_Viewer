@@ -6,7 +6,6 @@ import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.view.TextureView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 

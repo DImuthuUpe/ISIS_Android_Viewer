@@ -3,12 +3,13 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class ObjectMember extends JsonRepr{
     private String memberType;
     private String disabledReason;
-    private String value;
+    private JsonNode value; //for collections
     private String format;
     @JsonProperty("x-isis-format")
     public String x_isis_format;
@@ -31,16 +32,16 @@ public class ObjectMember extends JsonRepr{
         this.disabledReason = disabledReason;
     }
 
-    public String getValue() {
+    public String getFormat() {
+        return format;
+    }
+
+    public JsonNode getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(JsonNode value) {
         this.value = value;
-    }
-
-    public String getFormat() {
-        return format;
     }
 
     public void setFormat(String format) {
