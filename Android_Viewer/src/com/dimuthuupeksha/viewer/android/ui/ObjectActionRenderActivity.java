@@ -31,7 +31,7 @@ import android.widget.ListView;
 public class ObjectActionRenderActivity extends ListActivity {
 
     String describedby;
-    String self;
+    //String self;
     Map<String, ObjectMember> actionMembers;
     private boolean refreshed = false;
 
@@ -41,14 +41,14 @@ public class ObjectActionRenderActivity extends ListActivity {
         String data = (String) getIntent().getSerializableExtra("data");
         ActionResultItem actionResultItem = JsonRepr.fromString(ActionResultItem.class, data);
         describedby = actionResultItem.getLinkByRel("describedby").getHref();
-        self = actionResultItem.getLinkByRel("self").getHref();
+        //self = actionResultItem.getLinkByRel("self").getHref();
         actionMembers = new HashMap<String, ObjectMember>();
-
         Iterator<String> it = actionResultItem.getMembers().keySet().iterator();
         while (it.hasNext()) {
             String key = it.next();
             String memberType = actionResultItem.getMembers().get(key).getMemberType();
             if (memberType.equals("action")) {
+                System.out.println("7");
                 actionMembers.put(key, actionResultItem.getMembers().get(key));
                 System.out.println("action key " + key);
                 System.out.println(actionResultItem.getMembers().get(key));
@@ -99,7 +99,7 @@ public class ObjectActionRenderActivity extends ListActivity {
                                                                 // render the
                                                                 // action
         intent.putExtra("detailLink", data);
-        intent.putExtra("title", "Domain Action");
+        intent.putExtra("title", l.getItemAtPosition(position).toString());
         startActivity(intent);
 
     }

@@ -33,7 +33,7 @@ public class ObjectPropertyRenderActivity extends Activity {
     String describedby;
     private boolean refreshed = false;
 
-    @Override
+    @Override 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String data = (String) getIntent().getSerializableExtra("data");
@@ -42,7 +42,7 @@ public class ObjectPropertyRenderActivity extends Activity {
         propertyMember = new HashMap<String, ObjectMember>();
 
         Iterator<String> it = actionResultItem.getMembers().keySet().iterator();
-        while (it.hasNext()) {
+        while (it.hasNext()) { 
             String key = it.next();
             String memberType = actionResultItem.getMembers().get(key).getMemberType();
             if (memberType.equals("property")) {

@@ -20,6 +20,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -32,10 +33,14 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ListRenderActivity extends Activity {
 
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String data = (String)getIntent().getSerializableExtra("data");
+        title = (String)getIntent().getSerializableExtra("title");
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(title);
         final ActionResult listRepr = JsonRepr.fromString(ActionResult.class, data);
         ListView listView = new ListView(this);
         List<Link> values = listRepr.getResult().getValueAsList();
@@ -56,10 +61,6 @@ public class ListRenderActivity extends Activity {
       layout.setOrientation(android.widget.LinearLayout.VERTICAL);
       layout.addView(listView);
       setContentView(layout);
-        
-        
-        
-        
     }
 
     @Override

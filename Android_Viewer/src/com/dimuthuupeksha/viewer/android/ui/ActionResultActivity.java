@@ -31,11 +31,12 @@ import android.widget.TextView;
 
 public class ActionResultActivity extends Activity {
 
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Action action = (Action)getIntent().getSerializableExtra("action");
-        String title = (String)getIntent().getSerializableExtra("title");
+        title = (String)getIntent().getSerializableExtra("title");
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);
         new InvokeTask(ActionResultActivity.this).execute(action);
@@ -46,6 +47,8 @@ public class ActionResultActivity extends Activity {
         String data = listRepr.AsJson();
         Intent intent = new Intent(ActionResultActivity.this,ListRenderActivity.class);
         intent.putExtra("data", data);
+        intent.putExtra("title", title);
+        
         startActivity(intent);
         
     }
@@ -73,6 +76,7 @@ public class ActionResultActivity extends Activity {
             String data = mapper.writeValueAsString(result);
             Intent intent = new Intent(ActionResultActivity.this,ScalarRenderActivity.class);
             intent.putExtra("data", data);
+            intent.putExtra("title", title);
             startActivity(intent);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
@@ -118,7 +122,7 @@ public class ActionResultActivity extends Activity {
         protected void onPostExecute(ActionResult result) {
             if(result.getResulttype().equals("list")){
                 System.out.println("list Render");
-                renderList(result);
+                renderList(result);                
             }else if(result.getResulttype().equals("domainobject")){
                 System.out.println("DObject render");
                 renderDObject(result.getResult());
