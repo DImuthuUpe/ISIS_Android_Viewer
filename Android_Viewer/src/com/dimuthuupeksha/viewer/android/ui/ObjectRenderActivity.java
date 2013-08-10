@@ -106,7 +106,7 @@ public class ObjectRenderActivity extends TabActivity {
 
 
         intent.putExtra("data", data);
-        spec = tabHost.newTabSpec("collection");
+        spec = tabHost.newTabSpec("collections");
         spec.setIndicator("Collections");
         spec.setContent(intent);
         tabHost.addTab(spec);
@@ -123,6 +123,8 @@ public class ObjectRenderActivity extends TabActivity {
                     ((ObjectPropertyRenderActivity)activity).refresh();
                 }else if(tabId.equals("actions")){
                     ((ObjectActionRenderActivity)activity).refresh();
+                }else if(tabId.equals("collections")){
+                    ((ObjectCollectionRenderActivity)activity).refresh();
                 }
 
             }

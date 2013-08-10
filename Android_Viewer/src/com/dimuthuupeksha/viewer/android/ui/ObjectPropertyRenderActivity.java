@@ -68,7 +68,7 @@ public class ObjectPropertyRenderActivity extends Activity {
         }
     }
 
-    private void render(Map<String, Map<String, Object>> referenceMap) {
+    private void render(Map<String, Map<String, Object>> referenceMap) { //<key, <(domaintype,returntype),object>>
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(android.widget.LinearLayout.VERTICAL);
         Iterator<String> it = referenceMap.keySet().iterator();

@@ -7,6 +7,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class ObjectMember extends JsonRepr{
+	private String id;
     private String memberType;
     private String disabledReason;
     private JsonNode value; //for collections
@@ -54,6 +55,15 @@ public class ObjectMember extends JsonRepr{
     public void setExtensions(Map<String, String> extensions) {
         this.extensions = extensions;
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+    
     
    
     

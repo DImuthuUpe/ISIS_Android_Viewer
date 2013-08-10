@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ServiceMember extends JsonRepr{
     private String memberType;
+    private String id;
     public List<Link> getLinks() {
         return links;
     }
@@ -17,4 +18,12 @@ public class ServiceMember extends JsonRepr{
     public void setMemberType(String memberType) {
         this.memberType = memberType;
     }
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+    
+    
 }
