@@ -12,13 +12,16 @@ import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeCollection;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeProperty;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 
 import android.R;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
  
@@ -27,6 +30,7 @@ public class ObjectCollectionRenderActivity extends ListActivity {
     private Map<String, ObjectMember> collectionMember;
     private String describedby;
     private boolean refreshed =false;
+    Map<String, Map<String, Object>> referenceMap;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,15 +46,22 @@ public class ObjectCollectionRenderActivity extends ListActivity {
             String memberType = actionResultItem.getMembers().get(key).getMemberType();
             if (memberType.equals("collection")) {
                 collectionMember.put(key, actionResultItem.getMembers().get(key));
-                 //System.out.println("Collection : "+ key);
-                 //System.out.println(actionResultItem.getMembers().get(key));
-                // System.out.println(actionResultItem.getMembers().get(key).getValue());
             }
         }
-        
-        //ListView view = getListView();
-        //view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item_1, coffeeShops));
-         
+    }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String[] collectionIds = new String[referenceMap.keySet().size()];
+        collectionIds = referenceMap.keySet().toArray(collectionIds);
+        String selectedId = collectionIds[position];
+        Link detailLink = collectionMember.get(selectedId).getLinkByRel("details");
+        String data = detailLink.AsJson();
+        Intent intent = new Intent(this,CollectionRenderActivity.class);
+        intent.putExtra("data", data);
+        intent.putExtra("title", l.getItemAtPosition(position).toString());
+        System.out.println(selectedId);
+        startActivity(intent);
     }
     
     public void refresh(){
@@ -61,6 +72,7 @@ public class ObjectCollectionRenderActivity extends ListActivity {
     }
     
     private void render(Map<String, Map<String, Object>> referenceMap) { //<key, <(collection),object>>
+    	this.referenceMap=referenceMap;
     	String[] collectionTitles = new String[referenceMap.keySet().size()];
         collectionTitles = referenceMap.keySet().toArray(collectionTitles);
         for (int i = 0; i < collectionTitles.length; i++) {

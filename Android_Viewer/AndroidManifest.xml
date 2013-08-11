@@ -55,6 +55,10 @@
             android:name="com.dimuthuupeksha.viewer.android.ui.ScalarRenderActivity"
             android:label="@string/title_activity_scalar_render" >
         </activity>
+        <activity
+            android:name="com.dimuthuupeksha.viewer.android.ui.CollectionRenderActivity"
+            android:label="@string/title_activity_collection_render" >
+        </activity>
     </application>
 
 </manifest>

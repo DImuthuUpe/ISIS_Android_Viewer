@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
-public class DomainObject {
+public class DomainObject extends JsonRepr{
 	private Map<String, JsonNode> extensions;//for lists,object
     private String title;//for object
     private String domainType;//for object
