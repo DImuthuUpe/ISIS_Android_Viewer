@@ -11,9 +11,11 @@ import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeProperty;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
+import com.dimuthuupeksha.viewer.android.applib.representation.Property;
 import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
 
 import org.apache.http.impl.client.RoutedRequest;
+import org.codehaus.jackson.JsonNode;
 
 import android.R;
 import android.app.Activity;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ObjectPropertyRenderActivity extends Activity {
@@ -74,17 +77,47 @@ public class ObjectPropertyRenderActivity extends Activity {
         Iterator<String> it = referenceMap.keySet().iterator();
         while (it.hasNext()) {
             String id = it.next();
-            DomainTypeProperty property = (DomainTypeProperty) referenceMap.get(id).get("property");
+            DomainTypeProperty dproperty = (DomainTypeProperty) referenceMap.get(id).get("dproperty");
             DomainType dtype = (DomainType) referenceMap.get(id).get("dtype");
+            Property property = (Property)referenceMap.get(id).get("property");
             TextView tv = new TextView(this);
-            tv.setText(property.getExtensions().get("friendlyName"));
+            tv.setText(dproperty.getExtensions().get("friendlyName"));
             // System.out.println("1");
             // System.out.println(id);
             // System.out.println(propertyMember.get(id).getValue());
             // System.out.println("1.5");
-            if (propertyMember.get(id).getValue() != null) {//check whether value is null. 
+            String dataType = property.getFormat();
+            if(dataType==null){
+            	dataType = dtype.getCanonicalName();
+            }
+            boolean isChoice = false;
+            if(property.getChoices()!=null){
+            	isChoice =true;
+            }
+            if(isChoice){
+            	Spinner spinner = new Spinner(this);                
+                
+                String[] choices= new String[property.getChoices().size()];
+                String selectedVal = property.getValue();
+                choices = property.getChoices().toArray(choices);
+                int selection = 0;
+                for(int i=0;i<choices.length;i++){
+                	if(choices[i].equals(selectedVal)){
+                		selection = i;
+                		break;
+                	}
+                }
+                
+                
+                ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this,
+                    android.R.layout.simple_spinner_dropdown_item,choices);
+                spinner.setAdapter(spinnerArrayAdapter);
+                spinner.setSelection(selection);
+                layout.addView(tv);
+                layout.addView(spinner);
+            }else if (propertyMember.get(id).getValue() != null) {//check whether value is null. 
                 System.out.println("Value " + propertyMember.get(id).getValue().getValueAsText());
-                View view = ViewMapper.convertToView(dtype.getCanonicalName(), this, propertyMember.get(id).getValue().getValueAsText());
+                View view = ViewMapper.convertToView(dataType, this, propertyMember.get(id).getValue().getValueAsText());
                 // System.out.println("4");
                 layout.addView(tv);
                 if (view != null) {
@@ -118,12 +151,21 @@ public class ObjectPropertyRenderActivity extends Activity {
                 String key = it.next();
                 String url = describedby + "/properties/" + key;
                 RORequest request = client.RORequestTo(url);
-                DomainTypeProperty property = client.executeT(DomainTypeProperty.class, "GET", request, null);
-                url = property.getLinkByRel("return-type").getHref();
+                DomainTypeProperty dproperty = client.executeT(DomainTypeProperty.class, "GET", request, null);
+                url = dproperty.getLinkByRel("return-type").getHref();
                 System.out.println(url);
                 request = client.RORequestTo(url);
+                
                 DomainType domainType = client.executeT(DomainType.class, "GET", request, null);
+                
+                url = propertyMember.get(key).getLinkByRel("details").getHref();
+                request = client.RORequestTo(url);
+                
+                Property property = client.executeT(Property.class, "GET", request, null);
+                
+                
                 Map<String, Object> content = new HashMap<String, Object>();
+                content.put("dproperty", dproperty);
                 content.put("property", property);
                 content.put("dtype", domainType);
                 referenceMap.put(key, content);

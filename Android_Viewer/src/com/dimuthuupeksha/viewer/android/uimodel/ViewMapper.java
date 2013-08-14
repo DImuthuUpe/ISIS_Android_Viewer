@@ -11,6 +11,7 @@ public class ViewMapper {
     public static View convertToView(String type, Context context, String value) {
         //System.out.println("2");
         
+    
         if (type.equals("java.lang.Long")) {
             EditText txt = new EditText(context);
             if (value != null)
@@ -26,14 +27,22 @@ public class ViewMapper {
             if (value != null)
                 txt.setText(value);
             return txt;
-        } else if (type.equals("java.lang.String")) {
+        } else if (type.equals("java.lang.String")||type.equals("string")
+        		||type.equals("int")||type.equals("long")) {
             EditText txt = new EditText(context);
             if (value != null)
                 txt.setText(value);
 
             return txt;
-        } else if (type.equals("org.joda.time.LocalDate")) {
-            return new DatePicker(context);
+        } else if (type.equals("org.joda.time.LocalDate")||type.equals("date")) {
+            DatePicker datePicker = new DatePicker(context);
+            if(value!=null){
+	            int year = Integer.parseInt(value.split("-")[0]);
+	            int month = Integer.parseInt(value.split("-")[1]);
+	            int date = Integer.parseInt(value.split("-")[2]);
+	            datePicker.init(year, month, date, null);
+            }
+        	return datePicker;
         } else if (type.equals("java.math.BigDecimal")) {
             EditText txt = new EditText(context);
             if (value != null)

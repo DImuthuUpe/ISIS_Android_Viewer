@@ -12,8 +12,8 @@ public class ObjectMember extends JsonRepr{
     private String disabledReason;
     private JsonNode value; //for collections
     private String format;
-    @JsonProperty("x-isis-format")
-    public String x_isis_format;
+//    @JsonProperty("x-isis-format")
+//    public String x_isis_format;
 
     private Map<String, String> extensions;
 
