@@ -131,7 +131,7 @@ public class ActionActivity extends Activity {
                         value=((EditText)view).getText().toString();
                     }else if(view instanceof DatePicker){
                         String year=((DatePicker)view).getYear()+"";
-                        String month= ((DatePicker)view).getMonth()+"";
+                        String month= (((DatePicker)view).getMonth()+1)+"";
                         String day = ((DatePicker)view).getDayOfMonth()+"";
                         
                         if(month.length()==1){

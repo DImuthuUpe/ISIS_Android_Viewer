@@ -38,7 +38,7 @@ public class ViewMapper {
             DatePicker datePicker = new DatePicker(context);
             if(value!=null){
 	            int year = Integer.parseInt(value.split("-")[0]);
-	            int month = Integer.parseInt(value.split("-")[1]);
+	            int month = Integer.parseInt(value.split("-")[1])-1;
 	            int date = Integer.parseInt(value.split("-")[2]);
 	            datePicker.init(year, month, date, null);
             }
