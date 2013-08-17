@@ -10,6 +10,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeProperty;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 import com.dimuthuupeksha.viewer.android.applib.representation.Property;
 import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
@@ -25,8 +26,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,12 +38,14 @@ public class ObjectPropertyRenderActivity extends Activity {
     Map<String, ObjectMember> propertyMember;
     String describedby;
     private boolean refreshed = false;
-
+    private Map<String,View> viewMap;
+    private ActionResultItem actionResultItem;
     @Override 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String data = (String) getIntent().getSerializableExtra("data");
-        ActionResultItem actionResultItem = JsonRepr.fromString(ActionResultItem.class, data);
+        actionResultItem = JsonRepr.fromString(ActionResultItem.class, data);
+        viewMap = new HashMap<String, View>();
         describedby = actionResultItem.getLinkByRel("describedby").getHref();
         propertyMember = new HashMap<String, ObjectMember>();
 
@@ -114,6 +119,8 @@ public class ObjectPropertyRenderActivity extends Activity {
                 spinner.setAdapter(spinnerArrayAdapter);
                 spinner.setSelection(selection);
                 layout.addView(tv);
+                spinner.setEnabled(false);
+                viewMap.put(id, spinner);
                 layout.addView(spinner);
             }else if (propertyMember.get(id).getValue() != null) {//check whether value is null. 
                 System.out.println("Value " + propertyMember.get(id).getValue().getValueAsText());
@@ -121,11 +128,42 @@ public class ObjectPropertyRenderActivity extends Activity {
                 // System.out.println("4");
                 layout.addView(tv);
                 if (view != null) {
+                	view.setEnabled(false);
+                	viewMap.put(id, view);
                     layout.addView(view);
                 }
             }//good start point to track domain objects as property
         }
-        setContentView(layout);
+        Link updateLink = actionResultItem.getLinkByRel("update");
+        Map<String,Map<String,JsonNode>> arguments = updateLink.getArguments();
+        if(arguments!=null){
+        	Button updateButton = new Button(this);
+        	updateButton.setText("Update");
+        	updateButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					onUpdateButtonClick();
+				}
+			});
+        	layout.addView(updateButton);
+        	
+        }
+        ScrollView scView = new ScrollView(this);
+        scView.addView(layout);
+        setContentView(scView);
+    }
+    
+    private void onUpdateButtonClick(){
+    	Link updateLink = actionResultItem.getLinkByRel("update");
+    	Map<String,Map<String,JsonNode>> arguments = updateLink.getArguments();
+    	Iterator<String> keys= arguments.keySet().iterator();
+    	while(keys.hasNext()){
+    		String key = keys.next();
+    		System.out.println(key);
+    		if(viewMap.get(key)!=null&&arguments.get(key).get("disabledReason")!=null){
+    			viewMap.get(key).setEnabled(true);
+    		}
+    	}
     }
 
     private class ResolveReferenceTask extends AsyncTask<Void, Void, Map<String, Map<String, Object>>> {
