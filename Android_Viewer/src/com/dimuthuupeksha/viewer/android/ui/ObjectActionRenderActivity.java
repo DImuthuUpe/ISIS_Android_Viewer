@@ -1,7 +1,9 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
@@ -17,7 +19,6 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 
 import org.apache.http.impl.client.RoutedRequest;
 
-import android.R;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 public class ObjectActionRenderActivity extends ListActivity {
 
@@ -75,11 +77,21 @@ public class ObjectActionRenderActivity extends ListActivity {
         this.referenceMap = referenceMap;
         String[] actionTitles = new String[referenceMap.keySet().size()];
         actionTitles = referenceMap.keySet().toArray(actionTitles);
+        List<Map<String,String>> detailedTitles = new ArrayList<Map<String,String>>();
         for (int i = 0; i < actionTitles.length; i++) {
-            actionTitles[i] = ((DomainTypeAction) referenceMap.get(actionTitles[i]).get("dtAction")).getExtensions().get("friendlyName");
+        	String head = ((DomainTypeAction) referenceMap.get(actionTitles[i]).get("dtAction")).getExtensions().get("friendlyName");
+        	Map<String,String> titleMap = new HashMap<String, String>();
+			titleMap.put("head", head);
+			if(actionMembers.get(actionTitles[i]).getDisabledReason()!=null){
+			titleMap.put("subhead", actionMembers.get(actionTitles[i]).getDisabledReason());
+			}else{
+				titleMap.put("subhead","");
+			}
+			detailedTitles.add(titleMap);
         }
         ListView view = getListView();
-        view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item_1, actionTitles));
+        SimpleAdapter sadapter = new SimpleAdapter(this, detailedTitles, R.layout.list_item_with_two_rows, new String[]{"head","subhead"},new int[]{R.id.txtHead,R.id.txtSubhead});
+        view.setAdapter(sadapter);
 
     }
 

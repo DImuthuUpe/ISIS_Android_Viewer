@@ -1,7 +1,10 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
@@ -30,66 +33,74 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SimpleAdapter;
 
 public class ListRenderActivity extends Activity {
 
-    String title;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String data = (String)getIntent().getSerializableExtra("data");
-        title = (String)getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getActionBar();
-        actionBar.setTitle(title);
-        final ActionResult listRepr = JsonRepr.fromString(ActionResult.class, data);
-        ListView listView = new ListView(this);
-        List<Link> values = listRepr.getResult().getValueAsList();
-        String[] titles = new String[values.size()];
-        for(int i=0;i<values.size();i++){
-            titles[i]=values.get(i).getTitle();
-        }
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,titles);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-            System.out.println("list "+ listRepr.getResult().getValueAsList().get(position).getHref());
-             new ListItemResolveTask().execute(listRepr.getResult().getValueAsList().get(position));
-             }
-      });
-      LinearLayout layout = new LinearLayout(this);
-      layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-      layout.addView(listView);
-      setContentView(layout);
-    }
+	String title;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.list_render, menu);
-        return true;
-    }
-    
-    private class ListItemResolveTask extends AsyncTask<Link, Void, ActionResultItem>{
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		String data = (String) getIntent().getSerializableExtra("data");
+		title = (String) getIntent().getSerializableExtra("title");
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(title);
+		final ActionResult listRepr = JsonRepr.fromString(ActionResult.class,data);
+		ListView listView = new ListView(this);
+		List<Link> values = listRepr.getResult().getValueAsList();
+		
+		String[] titles = new String[values.size()];
+		for (int i = 0; i < values.size(); i++) {
+			titles[i] = values.get(i).getTitle();
+			
+		}
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, titles);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
+				System.out.println("list "+ listRepr.getResult().getValueAsList().get(position).getHref());
+				new ListItemResolveTask().execute(listRepr.getResult().getValueAsList().get(position));
+			}
+		});
+		LinearLayout layout = new LinearLayout(this);
+		layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+		layout.addView(listView);
+		setContentView(layout);
+	}
 
-        @Override
-        protected ActionResultItem doInBackground(Link... params) {
-            Link elementLink = params[0];
-            ROClient client= ROClient.getInstance();
-            RORequest request = client.RORequestTo(elementLink.getHref());
-            ActionResultItem result = client.executeT(ActionResultItem.class, elementLink.getMethod(), request, null);
-            return result;
-        }
-        
-        @Override
-        protected void onPostExecute(ActionResultItem result) {
-            if(result!=null){
-                String data = result.AsJson();
-                Intent intent = new Intent(ListRenderActivity.this,ObjectRenderActivity.class);
-                intent.putExtra("data", data);
-                startActivity(intent);
-            }
-        }
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.list_render, menu);
+		return true;
+	}
+
+	private class ListItemResolveTask extends
+			AsyncTask<Link, Void, ActionResultItem> {
+
+		@Override
+		protected ActionResultItem doInBackground(Link... params) {
+			Link elementLink = params[0];
+			ROClient client = ROClient.getInstance();
+			RORequest request = client.RORequestTo(elementLink.getHref());
+			ActionResultItem result = client.executeT(ActionResultItem.class,
+					elementLink.getMethod(), request, null);
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(ActionResultItem result) {
+			if (result != null) {
+				String data = result.AsJson();
+				Intent intent = new Intent(ListRenderActivity.this,
+						ObjectRenderActivity.class);
+				intent.putExtra("data", data);
+				startActivity(intent);
+			}
+		}
+	}
 
 }

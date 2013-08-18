@@ -1,7 +1,9 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
@@ -15,7 +17,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 
-import android.R;
+
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +26,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
  
 public class ObjectCollectionRenderActivity extends ListActivity {
  
@@ -75,12 +78,22 @@ public class ObjectCollectionRenderActivity extends ListActivity {
     	this.referenceMap=referenceMap;
     	String[] collectionTitles = new String[referenceMap.keySet().size()];
         collectionTitles = referenceMap.keySet().toArray(collectionTitles);
+        List<Map<String,String>> detailedTitles = new ArrayList<Map<String,String>>();
         for (int i = 0; i < collectionTitles.length; i++) {
-        	collectionTitles[i] = ((DomainTypeCollection) referenceMap.get(collectionTitles[i])
+        	String head = ((DomainTypeCollection) referenceMap.get(collectionTitles[i])
         			.get("collection")).getExtensions().get("friendlyName").getTextValue();
+        	Map<String,String> titleMap = new HashMap<String, String>();
+			titleMap.put("head", head);
+			if(collectionMember.get(collectionTitles[i]).getDisabledReason()!=null){
+			titleMap.put("subhead", collectionMember.get(collectionTitles[i]).getDisabledReason());
+			}else{
+				titleMap.put("subhead","");
+			}
+			detailedTitles.add(titleMap);
         }
         ListView view = getListView();
-        view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item_1, collectionTitles));
+        SimpleAdapter sadapter = new SimpleAdapter(this, detailedTitles, R.layout.list_item_with_two_rows, new String[]{"head","subhead"},new int[]{R.id.txtHead,R.id.txtSubhead});
+        view.setAdapter(sadapter);
     }
     
     private class ResolveReferenceTask extends AsyncTask<Void, Void, Map<String, Map<String, Object>>> {
