@@ -6,14 +6,14 @@ import java.util.Map;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class ObjectMember extends JsonRepr{
-	private String id;
+public class ObjectMember extends JsonRepr {
+    private String id;
     private String memberType;
     private String disabledReason;
-    private JsonNode value; //for collections
+    private JsonNode value; // for collections
     private String format;
-//    @JsonProperty("x-isis-format")
-//    public String x_isis_format;
+    // @JsonProperty("x-isis-format")
+    // public String x_isis_format;
 
     private Map<String, String> extensions;
 
@@ -48,6 +48,7 @@ public class ObjectMember extends JsonRepr{
     public void setFormat(String format) {
         this.format = format;
     }
+
     public Map<String, String> getExtensions() {
         return extensions;
     }
@@ -56,15 +57,12 @@ public class ObjectMember extends JsonRepr{
         this.extensions = extensions;
     }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
-    
-    
-   
-    
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

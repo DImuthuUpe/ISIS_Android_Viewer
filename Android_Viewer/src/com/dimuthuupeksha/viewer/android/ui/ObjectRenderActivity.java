@@ -60,41 +60,37 @@ public class ObjectRenderActivity extends TabActivity {
         String title = result.getTitle();
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);
-        
-        Map<String,ObjectMember> propertyMembers = new HashMap<String,ObjectMember>();
-        Map<String,ObjectMember> actionMembers = new HashMap<String,ObjectMember>();
-        Map<String,ObjectMember> collectionMembers = new HashMap<String,ObjectMember>();
+
+        Map<String, ObjectMember> propertyMembers = new HashMap<String, ObjectMember>();
+        Map<String, ObjectMember> actionMembers = new HashMap<String, ObjectMember>();
+        Map<String, ObjectMember> collectionMembers = new HashMap<String, ObjectMember>();
 
         Iterator<String> it = result.getMembers().keySet().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             String key = it.next();
             String memberType = result.getMembers().get(key).getMemberType();
-            if(memberType.equals("property")){
-                propertyMembers.put(key,result.getMembers().get(key));
-            }else if(memberType.equals("action")){
-                actionMembers.put(key,result.getMembers().get(key));
-            }else if(memberType.equals("collection")){
-                collectionMembers.put(key,result.getMembers().get(key));
+            if (memberType.equals("property")) {
+                propertyMembers.put(key, result.getMembers().get(key));
+            } else if (memberType.equals("action")) {
+                actionMembers.put(key, result.getMembers().get(key));
+            } else if (memberType.equals("collection")) {
+                collectionMembers.put(key, result.getMembers().get(key));
             }
         }
 
-
         TabHost tabHost = getTabHost();
         Intent intent = null;
-        ObjectMapper mapper= new ObjectMapper();
-
+        ObjectMapper mapper = new ObjectMapper();
 
         intent = new Intent().setClass(this, ObjectPropertyRenderActivity.class);
 
-
-        intent.putExtra("data",data);
+        intent.putExtra("data", data);
         TabHost.TabSpec spec = tabHost.newTabSpec("properties");
         spec.setIndicator("Properties");
         spec.setContent(intent);
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, ObjectActionRenderActivity.class);
-
 
         intent.putExtra("data", data);
         spec = tabHost.newTabSpec("actions");
@@ -104,32 +100,29 @@ public class ObjectRenderActivity extends TabActivity {
 
         intent = new Intent().setClass(this, ObjectCollectionRenderActivity.class);
 
-
         intent.putExtra("data", data);
         spec = tabHost.newTabSpec("collections");
         spec.setIndicator("Collections");
         spec.setContent(intent);
         tabHost.addTab(spec);
 
-
         tabHost.setCurrentTab(0);
-        ((ObjectPropertyRenderActivity)getLocalActivityManager().getActivity("properties")).refresh();
+        ((ObjectPropertyRenderActivity) getLocalActivityManager().getActivity("properties")).refresh();
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
-            public void onTabChanged(String tabId) {                
-                System.out.println("Tab id "+tabId);
-                Activity activity = getLocalActivityManager().getActivity(tabId); 
-                if(tabId.equals("properties")){
-                    ((ObjectPropertyRenderActivity)activity).refresh();
-                }else if(tabId.equals("actions")){
-                    ((ObjectActionRenderActivity)activity).refresh();
-                }else if(tabId.equals("collections")){
-                    ((ObjectCollectionRenderActivity)activity).refresh();
+            public void onTabChanged(String tabId) {
+                System.out.println("Tab id " + tabId);
+                Activity activity = getLocalActivityManager().getActivity(tabId);
+                if (tabId.equals("properties")) {
+                    ((ObjectPropertyRenderActivity) activity).refresh();
+                } else if (tabId.equals("actions")) {
+                    ((ObjectActionRenderActivity) activity).refresh();
+                } else if (tabId.equals("collections")) {
+                    ((ObjectCollectionRenderActivity) activity).refresh();
                 }
 
             }
         });
-
 
     }
 

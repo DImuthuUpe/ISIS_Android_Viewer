@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
-public class Link extends JsonRepr{
+public class Link extends JsonRepr {
     private String Id;
     private String title;
     private String rel;
@@ -14,10 +14,9 @@ public class Link extends JsonRepr{
     private String method;
     private String type;
 
-    private Map<String, Map<String,JsonNode>> arguments;
-    private Map<String, Map<String,JsonNode>> args;
+    private Map<String, Map<String, JsonNode>> arguments;
+    private Map<String, Map<String, JsonNode>> args;
 
-    
     public String getId() {
         return Id;
     }
@@ -81,8 +80,5 @@ public class Link extends JsonRepr{
     public void setArgs(Map<String, Map<String, JsonNode>> args) {
         this.args = args;
     }
-    
-    
 
-    
 }

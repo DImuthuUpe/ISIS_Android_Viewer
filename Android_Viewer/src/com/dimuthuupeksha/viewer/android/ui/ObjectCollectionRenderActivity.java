@@ -8,6 +8,10 @@ import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.JsonParseException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
@@ -17,9 +21,10 @@ import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 
-
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,14 +32,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
- 
+
 public class ObjectCollectionRenderActivity extends ListActivity {
- 
+
     private Map<String, ObjectMember> collectionMember;
     private String describedby;
-    private boolean refreshed =false;
+    private boolean refreshed = false;
     Map<String, Map<String, Object>> referenceMap;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,7 @@ public class ObjectCollectionRenderActivity extends ListActivity {
         collectionMember = new HashMap<String, ObjectMember>();
 
         Iterator<String> it = actionResultItem.getMembers().keySet().iterator();
-        while (it.hasNext()) { 
+        while (it.hasNext()) {
             String key = it.next();
             String memberType = actionResultItem.getMembers().get(key).getMemberType();
             if (memberType.equals("collection")) {
@@ -52,7 +57,7 @@ public class ObjectCollectionRenderActivity extends ListActivity {
             }
         }
     }
-    
+
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         String[] collectionIds = new String[referenceMap.keySet().size()];
@@ -60,45 +65,49 @@ public class ObjectCollectionRenderActivity extends ListActivity {
         String selectedId = collectionIds[position];
         Link detailLink = collectionMember.get(selectedId).getLinkByRel("details");
         String data = detailLink.AsJson();
-        Intent intent = new Intent(this,CollectionRenderActivity.class);
+        Intent intent = new Intent(this, CollectionRenderActivity.class);
         intent.putExtra("data", data);
-        intent.putExtra("title", l.getItemAtPosition(position).toString());
+        intent.putExtra("title", ((Map<String,String>)l.getItemAtPosition(position)).get("head"));
         System.out.println(selectedId);
         startActivity(intent);
     }
-    
-    public void refresh(){
-    	if (!refreshed) {
+
+    public void refresh() {
+        if (!refreshed) {
             new ResolveReferenceTask(ObjectCollectionRenderActivity.this).execute();
             refreshed = true;
         }
     }
-    
-    private void render(Map<String, Map<String, Object>> referenceMap) { //<key, <(collection),object>>
-    	this.referenceMap=referenceMap;
-    	String[] collectionTitles = new String[referenceMap.keySet().size()];
+
+    private void render(Map<String, Map<String, Object>> referenceMap) { // <key,
+                                                                         // <(collection),object>>
+        this.referenceMap = referenceMap;
+        String[] collectionTitles = new String[referenceMap.keySet().size()];
         collectionTitles = referenceMap.keySet().toArray(collectionTitles);
-        List<Map<String,String>> detailedTitles = new ArrayList<Map<String,String>>();
+        List<Map<String, String>> detailedTitles = new ArrayList<Map<String, String>>();
         for (int i = 0; i < collectionTitles.length; i++) {
-        	String head = ((DomainTypeCollection) referenceMap.get(collectionTitles[i])
-        			.get("collection")).getExtensions().get("friendlyName").getTextValue();
-        	Map<String,String> titleMap = new HashMap<String, String>();
-			titleMap.put("head", head);
-			if(collectionMember.get(collectionTitles[i]).getDisabledReason()!=null){
-			titleMap.put("subhead", collectionMember.get(collectionTitles[i]).getDisabledReason());
-			}else{
-				titleMap.put("subhead","");
-			}
-			detailedTitles.add(titleMap);
+            String head = ((DomainTypeCollection) referenceMap.get(collectionTitles[i]).get("collection")).getExtensions().get("friendlyName").getTextValue();
+            Map<String, String> titleMap = new HashMap<String, String>();
+            titleMap.put("head", head);
+            if (collectionMember.get(collectionTitles[i]).getDisabledReason() != null) {
+                titleMap.put("subhead", collectionMember.get(collectionTitles[i]).getDisabledReason());
+            } else {
+                titleMap.put("subhead", "");
+            }
+            detailedTitles.add(titleMap);
         }
         ListView view = getListView();
-        SimpleAdapter sadapter = new SimpleAdapter(this, detailedTitles, R.layout.list_item_with_two_rows, new String[]{"head","subhead"},new int[]{R.id.txtHead,R.id.txtSubhead});
+        SimpleAdapter sadapter = new SimpleAdapter(this, detailedTitles, R.layout.list_item_with_two_rows, new String[] { "head", "subhead" }, new int[] { R.id.txtHead, R.id.txtSubhead });
         view.setAdapter(sadapter);
     }
-    
+
     private class ResolveReferenceTask extends AsyncTask<Void, Void, Map<String, Map<String, Object>>> {
 
         ProgressDialog pd;
+        int error = 0;
+        private static final int INVALID_CREDENTIAL = -1;
+        private static final int CONNECTION_ERROR = -2;
+        private static final int UNKNOWN_ERROR = -3;
 
         public ResolveReferenceTask(ObjectCollectionRenderActivity activity) {
             pd = new ProgressDialog(activity);
@@ -115,24 +124,64 @@ public class ObjectCollectionRenderActivity extends ListActivity {
             ROClient client = ROClient.getInstance();
             Iterator<String> it = collectionMember.keySet().iterator();
             Map<String, Map<String, Object>> referenceMap = new HashMap<String, Map<String, Object>>();
-            while (it.hasNext()) {
-                String key = it.next();
-                String url = describedby + "/collections/" + key;
-                RORequest request = client.RORequestTo(url);
-                DomainTypeCollection collection = client.executeT(DomainTypeCollection.class, "GET", request, null);
-                Map<String, Object> content = new HashMap<String, Object>();
-                content.put("collection", collection);
-                referenceMap.put(key, content);
+            try {
+                while (it.hasNext()) {
+                    String key = it.next();
+                    String url = describedby + "/collections/" + key;
+                    RORequest request = client.RORequestTo(url);
+                    DomainTypeCollection collection = client.executeT(DomainTypeCollection.class, "GET", request, null);
+                    Map<String, Object> content = new HashMap<String, Object>();
+                    content.put("collection", collection);
+                    referenceMap.put(key, content);
+                }
+            } catch (ConnectionException e) {
+                error = CONNECTION_ERROR;
+                e.printStackTrace();
+            } catch (InvalidCredentialException e) {
+                error = INVALID_CREDENTIAL;
+                e.printStackTrace();
+            } catch (UnknownErrorException e) {
+                error = UNKNOWN_ERROR;
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return referenceMap;
         }
 
         @Override
         protected void onPostExecute(Map<String, Map<String, Object>> result) {
-            render(result);
+            if (result != null) {
+                render(result);
+            }
+
+            if (error == INVALID_CREDENTIAL) {
+                /* Username and password not valid show the Login */
+                Intent intent = new Intent(ObjectCollectionRenderActivity.this, LogInActivity.class);
+                ObjectCollectionRenderActivity.this.startActivity(intent);
+            }
+
+            if (error == CONNECTION_ERROR) {
+                /** Show the error Dialog */
+                AlertDialog alertDialog = new AlertDialog.Builder(ObjectCollectionRenderActivity.this).create();
+                alertDialog.setTitle("Connection Error");
+                alertDialog.setMessage("Please check your settings.");
+
+                // Setting OK Button
+                alertDialog.setButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+            }
+
             pd.hide();
+
         }
 
     }
-     
+
 }

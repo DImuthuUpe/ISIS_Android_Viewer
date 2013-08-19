@@ -6,6 +6,9 @@ import java.util.Map;
 
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
@@ -18,8 +21,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -37,104 +42,189 @@ public class DomainServiceActivity extends ListActivity {
         actionBar.setTitle(link.getTitle());
         new DomainServiceTask(DomainServiceActivity.this).execute(link);
     }
-    
-    private Service service=null;
-    private void render(Service service){
+
+    private Service service = null;
+
+    private void render(Service service) {
         new FriendlyNameFetcherTask(DomainServiceActivity.this).execute(service);
-        this.service=service;
-        
+        this.service = service;
+
     }
-    
+
     private String[] friendlyNames;
-    
-    private void renderWithFirendlyNames(String names[]){        
-        friendlyNames=names;
+
+    private void renderWithFirendlyNames(String names[]) {
+        friendlyNames = names;
         setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names));
     }
-    
+
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        Map<String,ServiceMember> members = service.getMembers();
+        Map<String, ServiceMember> members = service.getMembers();
         List<String> items = new ArrayList<String>();
-        String[] temp= new String[ members.keySet().size()];
-        String selected= members.keySet().toArray(temp)[position];
+        String[] temp = new String[members.keySet().size()];
+        String selected = members.keySet().toArray(temp)[position];
         ServiceMember selectedMember = members.get(selected);
         Intent intent = new Intent(DomainServiceActivity.this, ActionActivity.class);
         String detailLink = selectedMember.getLinks().get(0).AsJson();
-        intent.putExtra("detailLink",detailLink );
+        intent.putExtra("detailLink", detailLink);
         intent.putExtra("title", friendlyNames[position]);
         startActivity(intent);
     }
 
-    
-    
-    private class DomainServiceTask extends AsyncTask<Link, Void, Service>{
+    private class DomainServiceTask extends AsyncTask<Link, Void, Service> {
 
         private final ProgressDialog pd;
         private DomainServiceActivity activity;
-        
-        public DomainServiceTask(DomainServiceActivity activity){
-            this.activity=activity;
+        int error = 0;
+        private static final int INVALID_CREDENTIAL = -1;
+        private static final int CONNECTION_ERROR = -2;
+        private static final int UNKNOWN_ERROR = -3;
+
+        public DomainServiceTask(DomainServiceActivity activity) {
+            this.activity = activity;
             pd = new ProgressDialog(activity);
             pd.setMessage("Loading...");
         }
-        
+
         @Override
         protected Service doInBackground(Link... links) {
             List<Link> actions = new ArrayList<Link>();
-            System.out.println("DomainService "+links[0].getHref());
-            Service service = ROClient.getInstance().get(Service.class, links[0].getHref(), null);
-            String temp[]={};
-            for(String id: service.getMembers().keySet().toArray(temp)){
-                System.out.println(id);
-            }            
-            return service;
+            System.out.println("DomainService " + links[0].getHref());
+            try {
+                Service service = ROClient.getInstance().get(Service.class, links[0].getHref(), null);
+                String temp[] = {};
+                for (String id : service.getMembers().keySet().toArray(temp)) {
+                    System.out.println(id);
+                }
+                return service;
+            } catch (ConnectionException e) {
+                error = CONNECTION_ERROR;
+                e.printStackTrace();
+            } catch (InvalidCredentialException e) {
+                error = INVALID_CREDENTIAL;
+                e.printStackTrace();
+            } catch (UnknownErrorException e) {
+                error = UNKNOWN_ERROR;
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-        
+
         @Override
         protected void onPreExecute() {
             pd.show();
         }
-        
+
         @Override
         protected void onPostExecute(Service result) {
-            activity.render(result);
+            if (result != null) {
+                activity.render(result);
+            }
+            if (error == INVALID_CREDENTIAL) {
+                /* Username and password not valid show the Login */
+                Intent intent = new Intent(DomainServiceActivity.this, LogInActivity.class);
+                DomainServiceActivity.this.startActivity(intent);
+            }
+
+            if (error == CONNECTION_ERROR) {
+                /** Show the error Dialog */
+                AlertDialog alertDialog = new AlertDialog.Builder(DomainServiceActivity.this).create();
+                alertDialog.setTitle("Connection Error");
+                alertDialog.setMessage("Please check your settings.");
+
+                // Setting OK Button
+                alertDialog.setButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+            }
             pd.hide();
         }
-        
+
     }
 
-    private class FriendlyNameFetcherTask extends AsyncTask<Service, Void, String[]>{
-        
+    private class FriendlyNameFetcherTask extends AsyncTask<Service, Void, String[]> {
+
         DomainServiceActivity activity;
+        int error = 0;
+        private static final int INVALID_CREDENTIAL = -1;
+        private static final int CONNECTION_ERROR = -2;
+        private static final int UNKNOWN_ERROR = -3;
+
         public FriendlyNameFetcherTask(DomainServiceActivity activity) {
-            this.activity=activity;
+            this.activity = activity;
         }
+
         @Override
         protected String[] doInBackground(Service... params) {
             Service service = params[0];
             Map<String, ServiceMember> members = service.getMembers();
-            String memberIds[]=new String[members.keySet().size()];
-            memberIds= members.keySet().toArray(memberIds);
-            for(int i=0;i<memberIds.length;i++){
-                Link detailLink = members.get(memberIds[i]).getLinkByRel("details");
-                String href = detailLink.getHref();
-                RORequest request = ROClient.getInstance().RORequestTo(href);
-                Action action= ROClient.getInstance().executeT(Action.class, "GET", request, null);
-                request = ROClient.getInstance().RORequestTo(action.getLinkByRel("describedby").getHref());
-                DomainTypeAction dta = ROClient.getInstance().executeT(DomainTypeAction.class, "GET", request, null);
-                System.out.println(dta.getExtensions().get("friendlyName"));
-                memberIds[i]=dta.getExtensions().get("friendlyName");
+            String memberIds[] = new String[members.keySet().size()];
+            memberIds = members.keySet().toArray(memberIds);
+            try {
+                for (int i = 0; i < memberIds.length; i++) {
+                    Link detailLink = members.get(memberIds[i]).getLinkByRel("details");
+                    String href = detailLink.getHref();
+                    RORequest request = ROClient.getInstance().RORequestTo(href);
+                    Action action = ROClient.getInstance().executeT(Action.class, "GET", request, null);
+                    request = ROClient.getInstance().RORequestTo(action.getLinkByRel("describedby").getHref());
+                    DomainTypeAction dta = ROClient.getInstance().executeT(DomainTypeAction.class, "GET", request, null);
+                    System.out.println(dta.getExtensions().get("friendlyName"));
+                    memberIds[i] = dta.getExtensions().get("friendlyName");
+                }
+
+                return memberIds;
+            } catch (ConnectionException e) {
+                error = CONNECTION_ERROR;
+                e.printStackTrace();
+            } catch (InvalidCredentialException e) {
+                error = INVALID_CREDENTIAL;
+                e.printStackTrace();
+            } catch (UnknownErrorException e) {
+                error = UNKNOWN_ERROR;
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            
-            return memberIds;
+            return null;
         }
-        
+
         @Override
         protected void onPostExecute(String[] result) {
-            
-            activity.renderWithFirendlyNames(result);
+            if (result != null) {
+                activity.renderWithFirendlyNames(result);
+            }
+
+            if (error == INVALID_CREDENTIAL) {
+                /* Username and password not valid show the Login */
+                Intent intent = new Intent(DomainServiceActivity.this, LogInActivity.class);
+                DomainServiceActivity.this.startActivity(intent);
+            }
+
+            if (error == CONNECTION_ERROR) {
+                /** Show the error Dialog */
+                AlertDialog alertDialog = new AlertDialog.Builder(DomainServiceActivity.this).create();
+                alertDialog.setTitle("Connection Error");
+                alertDialog.setMessage("Please check your settings.");
+
+                // Setting OK Button
+                alertDialog.setButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+            }
         }
-        
+
     }
 }

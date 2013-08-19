@@ -15,5 +15,6 @@
     <string name="title_activity_object_render">ObjectRenderActivity</string>
     <string name="title_activity_scalar_render">ScalarRenderActivity</string>
     <string name="title_activity_collection_render">CollectionRenderActivity</string>
+    <string name="title_activity_log_in">LogInActivity</string>
 
 </resources>

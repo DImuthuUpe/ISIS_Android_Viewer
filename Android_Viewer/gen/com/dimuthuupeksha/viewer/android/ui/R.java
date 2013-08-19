@@ -24,11 +24,14 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080004;
+        public static final int action_settings=0x7f080007;
         public static final int listView1=0x7f080001;
+        public static final int login=0x7f080004;
+        public static final int password=0x7f080003;
         public static final int textView1=0x7f080000;
-        public static final int txtHead=0x7f080002;
-        public static final int txtSubhead=0x7f080003;
+        public static final int txtHead=0x7f080005;
+        public static final int txtSubhead=0x7f080006;
+        public static final int username=0x7f080002;
     }
     public static final class layout {
         public static final int action_args=0x7f030000;
@@ -36,12 +39,13 @@ public final class R {
         public static final int activity_invoke_action=0x7f030002;
         public static final int activity_list_render=0x7f030003;
         public static final int activity_list_render2=0x7f030004;
-        public static final int activity_object_render=0x7f030005;
-        public static final int activity_scalar_render=0x7f030006;
-        public static final int activity_service=0x7f030007;
-        public static final int domain_service=0x7f030008;
-        public static final int list=0x7f030009;
-        public static final int list_item_with_two_rows=0x7f03000a;
+        public static final int activity_log_in=0x7f030005;
+        public static final int activity_object_render=0x7f030006;
+        public static final int activity_scalar_render=0x7f030007;
+        public static final int activity_service=0x7f030008;
+        public static final int domain_service=0x7f030009;
+        public static final int list=0x7f03000a;
+        public static final int list_item_with_two_rows=0x7f03000b;
     }
     public static final class menu {
         public static final int action=0x7f070000;
@@ -50,9 +54,10 @@ public final class R {
         public static final int home=0x7f070003;
         public static final int invoke_action=0x7f070004;
         public static final int list_render=0x7f070005;
-        public static final int main=0x7f070006;
-        public static final int object_render=0x7f070007;
-        public static final int scalar_render=0x7f070008;
+        public static final int log_in=0x7f070006;
+        public static final int main=0x7f070007;
+        public static final int object_render=0x7f070008;
+        public static final int scalar_render=0x7f070009;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -66,6 +71,7 @@ public final class R {
         public static final int title_activity_home=0x7f050003;
         public static final int title_activity_invoke_action=0x7f050009;
         public static final int title_activity_list_render=0x7f05000a;
+        public static final int title_activity_log_in=0x7f05000e;
         public static final int title_activity_object_render=0x7f05000b;
         public static final int title_activity_scalar_render=0x7f05000c;
         public static final int title_activity_service=0x7f050005;

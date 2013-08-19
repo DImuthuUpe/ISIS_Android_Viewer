@@ -12,17 +12,18 @@ import android.widget.TextView;
 
 public class ScalarRenderActivity extends Activity {
     String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(android.widget.LinearLayout.VERTICAL);
         String data = (String) getIntent().getSerializableExtra("data");
-        title = (String)getIntent().getSerializableExtra("title");
+        title = (String) getIntent().getSerializableExtra("title");
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);
         ActionResult result = JsonRepr.fromString(ActionResult.class, data);
-        
+
         TextView tv = new TextView(this);
         tv.setText(result.getResult().getValue().asText());
         layout.addView(tv);

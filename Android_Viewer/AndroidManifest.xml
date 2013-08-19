@@ -59,6 +59,10 @@
             android:name="com.dimuthuupeksha.viewer.android.ui.CollectionRenderActivity"
             android:label="@string/title_activity_collection_render" >
         </activity>
+        <activity
+            android:name="com.dimuthuupeksha.viewer.android.ui.LogInActivity"
+            android:label="@string/title_activity_log_in" >
+        </activity>
     </application>
 
 </manifest>

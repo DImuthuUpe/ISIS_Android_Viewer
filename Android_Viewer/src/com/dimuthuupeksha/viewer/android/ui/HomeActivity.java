@@ -6,10 +6,12 @@ import java.util.List;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.UrlTemplate;
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
-
 
 import android.net.MailTo;
 import android.os.AsyncTask;
@@ -20,8 +22,10 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -71,6 +75,10 @@ public class HomeActivity extends ListActivity {
     private class HomeTask extends AsyncTask<Void, Void, Homepage> {
         private final ProgressDialog pd;
         private final HomeActivity activity;
+        int error = 0;
+		private static final int INVALID_CREDENTIAL = -1;
+		private static final int CONNECTION_ERROR = -2;
+		private static final int UNKNOWN_ERROR = -3;
 
         private HomeTask(HomeActivity activity) {
             pd = new ProgressDialog(activity);
@@ -89,7 +97,20 @@ public class HomeActivity extends ListActivity {
             Homepage homePage = Model.getInstance().getHomePage();
             
             if(homePage==null){
+            	try{
                 homePage = ROClient.getInstance().homePage();
+            	}catch (ConnectionException e) {
+    				error = CONNECTION_ERROR;
+    				e.printStackTrace();
+    			} catch (InvalidCredentialException e) {
+    				error = INVALID_CREDENTIAL;
+    				e.printStackTrace();
+    			} catch (UnknownErrorException e) {
+    				error = UNKNOWN_ERROR;
+    				e.printStackTrace();
+    			} catch (Exception e){
+    				e.printStackTrace();
+    			}
             }
             return homePage;
         }
@@ -100,6 +121,33 @@ public class HomeActivity extends ListActivity {
                 Model.getInstance().setHomePage(homePage);
                 activity.render();
             }
+            
+            if (error == INVALID_CREDENTIAL) {
+				/* Username and password not valid show the Login */
+				Intent intent = new Intent(HomeActivity.this,
+						LogInActivity.class);
+				HomeActivity.this.startActivity(intent);
+			}
+
+			if (error == CONNECTION_ERROR) {
+				/** Show the error Dialog */
+				AlertDialog alertDialog = new AlertDialog.Builder(
+						HomeActivity.this).create();
+				alertDialog.setTitle("Connection Error");
+				alertDialog.setMessage("Please check your settings.");
+
+				// Setting OK Button
+				alertDialog.setButton("Close",
+ new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+						});
+
+				// Showing Alert Message
+				alertDialog.show();
+			}
             pd.hide();
         }
     }
