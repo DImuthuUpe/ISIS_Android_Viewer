@@ -20,6 +20,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypePropert
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
+import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -28,6 +29,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -56,6 +59,32 @@ public class ObjectCollectionRenderActivity extends ListActivity {
                 collectionMember.put(key, actionResultItem.getMembers().get(key));
             }
         }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()){
+        
+        case R.id.home:
+            intent = new Intent(this,HomeActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.services:
+            intent = new Intent(this,ServicesActivity.class);
+            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
+            startActivity(intent);
+            break;
+        case R.id.back:
+            
+        }
+        return true;
     }
 
     @Override

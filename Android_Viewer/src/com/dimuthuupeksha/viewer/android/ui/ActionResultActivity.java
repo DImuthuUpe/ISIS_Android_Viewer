@@ -13,6 +13,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -26,6 +27,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -46,6 +48,32 @@ public class ActionResultActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);
         new InvokeTask(ActionResultActivity.this).execute(action);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+
+        case R.id.home:
+            intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.services:
+            intent = new Intent(this, ServicesActivity.class);
+            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
+            startActivity(intent);
+            break;
+        case R.id.back:
+
+        }
+        return true;
     }
 
     private void renderList(final ActionResult listRepr) {
@@ -92,13 +120,6 @@ public class ActionResultActivity extends Activity {
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.invoke_action, menu);
-        return true;
     }
 
     private class InvokeTask extends AsyncTask<Action, Void, ActionResult> {

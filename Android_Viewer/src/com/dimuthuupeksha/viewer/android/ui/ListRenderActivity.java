@@ -16,6 +16,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -32,6 +33,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -60,7 +62,7 @@ public class ListRenderActivity extends Activity {
             titles[i] = values.get(i).getTitle();
 
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, titles);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_list_item, titles);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -77,8 +79,27 @@ public class ListRenderActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.list_render, menu);
+        getMenuInflater().inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()){
+        
+        case R.id.home:
+            intent = new Intent(this,HomeActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.services:
+            intent = new Intent(this,ServicesActivity.class);
+            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
+            startActivity(intent);
+            break;
+        case R.id.back:
+            
+        }
         return true;
     }
 

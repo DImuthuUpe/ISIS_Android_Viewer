@@ -27,11 +27,14 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class DomainServiceActivity extends ListActivity {
+
+    private Service service = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,31 @@ public class DomainServiceActivity extends ListActivity {
         new DomainServiceTask(DomainServiceActivity.this).execute(link);
     }
 
-    private Service service = null;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+
+        case R.id.home:
+            intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.services:
+            intent = new Intent(this, ServicesActivity.class);
+            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
+            startActivity(intent);
+            break;
+        case R.id.back:
+
+        }
+        return true;
+    }
 
     private void render(Service service) {
         new FriendlyNameFetcherTask(DomainServiceActivity.this).execute(service);

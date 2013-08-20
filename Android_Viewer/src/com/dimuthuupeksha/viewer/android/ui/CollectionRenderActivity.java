@@ -10,8 +10,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Collection;
 import com.dimuthuupeksha.viewer.android.applib.representation.CollectionValue;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-import android.R;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -21,6 +21,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -41,6 +42,32 @@ public class CollectionRenderActivity extends ListActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+
+        case R.id.home:
+            intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.services:
+            intent = new Intent(this, ServicesActivity.class);
+            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
+            startActivity(intent);
+            break;
+        case R.id.back:
+
+        }
+        return true;
+    }
+
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         CollectionValue colVal = collection.getValue().get(position);
         new CollectionItemResolveTask().execute(colVal);
@@ -54,15 +81,9 @@ public class CollectionRenderActivity extends ListActivity {
             collectionTitles[i] = (collection.getValue().get(i).getTitle());
         }
         ListView view = getListView();
-        view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item_1, collectionTitles));
+        view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item, collectionTitles));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.collection_render, menu);
-        return true;
-    }
 
     private class CollectionTask extends AsyncTask<Link, Void, Collection> {
         int error = 0;

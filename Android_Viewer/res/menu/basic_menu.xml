@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/home"
+        android:orderInCategory="1"
+        android:title="Home"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/home32"/>
+    
+    <item
+        android:id="@+id/services"
+        android:orderInCategory="1"
+        android:title="Services"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/notepencil32"/>
+    
+    <item
+        android:id="@+id/back"
+        android:orderInCategory="1"
+        android:title="Services"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/leftarrow32"/>
+
+</menu>

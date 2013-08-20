@@ -28,6 +28,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -55,11 +56,37 @@ public class HomeActivity extends ListActivity {
         //System.out.println("a "+homePage.getLinks().get(position).getRel());
         if(selected.toString().equals("services")){
             Intent intent = new Intent(HomeActivity.this, ServicesActivity.class);
-            intent.putExtra("link", homePage.getLinks().get(position));
+            intent.putExtra("link", homePage.getLinkByRel("services"));
             startActivity(intent);
             
         }
         
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.basic_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()){
+        
+        case R.id.home:
+            intent = new Intent(this,HomeActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.services:
+            intent = new Intent(this,ServicesActivity.class);
+            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
+            startActivity(intent);
+            break;
+        case R.id.back:
+            
+        }
+        return true;
     }
 
     public void render(){
