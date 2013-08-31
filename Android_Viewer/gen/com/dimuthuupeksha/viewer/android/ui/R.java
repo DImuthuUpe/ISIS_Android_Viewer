@@ -27,13 +27,15 @@ public final class R {
         public static final int notepencil32=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f080007;
-        public static final int back=0x7f08000a;
-        public static final int home=0x7f080008;
+        public static final int action_settings=0x7f080009;
+        public static final int back=0x7f08000c;
+        public static final int home=0x7f08000a;
         public static final int listView1=0x7f080001;
         public static final int login=0x7f080004;
         public static final int password=0x7f080003;
-        public static final int services=0x7f080009;
+        public static final int services=0x7f08000b;
+        public static final int slidedout_cover=0x7f080008;
+        public static final int slideout_placeholder=0x7f080007;
         public static final int textView1=0x7f080000;
         public static final int txtHead=0x7f080005;
         public static final int txtSubhead=0x7f080006;
@@ -53,6 +55,7 @@ public final class R {
         public static final int list=0x7f03000a;
         public static final int list_item_with_two_rows=0x7f03000b;
         public static final int simple_list_item=0x7f03000c;
+        public static final int slideout=0x7f03000d;
     }
     public static final class menu {
         public static final int action=0x7f070000;

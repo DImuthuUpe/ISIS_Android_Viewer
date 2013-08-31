@@ -19,6 +19,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypePropert
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import org.apache.http.impl.client.RoutedRequest;
@@ -30,6 +31,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,9 +89,10 @@ public class ObjectActionRenderActivity extends ListActivity {
             startActivity(intent);
             break;
         case R.id.services:
-            intent = new Intent(this,ServicesActivity.class);
-            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
-            startActivity(intent);
+            int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+            com.dimuthuupeksha.viewer.android.uimodel.SlideoutActivity.prepare(this, getWindow().getDecorView().getRootView(), width);
+            startActivity(new Intent(this,MenuActivity.class));
+            overridePendingTransition(0, 0);
             break;
         case R.id.back:
             

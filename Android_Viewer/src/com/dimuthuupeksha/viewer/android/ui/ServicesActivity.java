@@ -12,6 +12,7 @@ import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.Service;
 import com.dimuthuupeksha.viewer.android.applib.representation.Services;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,9 +61,10 @@ public class ServicesActivity extends ListActivity {
             startActivity(intent);
             break;
         case R.id.services:
-            intent = new Intent(this,ServicesActivity.class);
-            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
-            startActivity(intent);
+            int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+            com.dimuthuupeksha.viewer.android.uimodel.SlideoutActivity.prepare(this, getWindow().getDecorView().getRootView(), width);
+            startActivity(new Intent(this,MenuActivity.class));
+            overridePendingTransition(0, 0);
             break;
         case R.id.back:
             

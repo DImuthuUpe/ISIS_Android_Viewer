@@ -2,24 +2,27 @@ package com.dimuthuupeksha.viewer.android.ui;
 
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ScalarRenderActivity extends Activity {
-    String title;
+    private String title;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout layout = new LinearLayout(this);
+        layout = new LinearLayout(this);
         layout.setOrientation(android.widget.LinearLayout.VERTICAL);
         String data = (String) getIntent().getSerializableExtra("data");
         title = (String) getIntent().getSerializableExtra("title");
@@ -49,9 +52,10 @@ public class ScalarRenderActivity extends Activity {
             startActivity(intent);
             break;
         case R.id.services:
-            intent = new Intent(this,ServicesActivity.class);
-            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
-            startActivity(intent);
+            int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+            com.dimuthuupeksha.viewer.android.uimodel.SlideoutActivity.prepare(this, getWindow().getDecorView().getRootView(), width);
+            startActivity(new Intent(this,MenuActivity.class));
+            overridePendingTransition(0, 0);
             break;
         case R.id.back:
             

@@ -16,6 +16,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
 import org.codehaus.jackson.JsonFactory;
@@ -32,6 +33,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +46,8 @@ import android.widget.SimpleAdapter;
 
 public class ListRenderActivity extends Activity {
 
-    String title;
+    private String title;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class ListRenderActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);
         final ActionResult listRepr = JsonRepr.fromString(ActionResult.class, data);
-        ListView listView = new ListView(this);
+        listView = new ListView(this);
         List<Link> values = listRepr.getResult().getValueAsList();
 
         String[] titles = new String[values.size()];
@@ -93,9 +96,10 @@ public class ListRenderActivity extends Activity {
             startActivity(intent);
             break;
         case R.id.services:
-            intent = new Intent(this,ServicesActivity.class);
-            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
-            startActivity(intent);
+            int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+            com.dimuthuupeksha.viewer.android.uimodel.SlideoutActivity.prepare(this, getWindow().getDecorView().getRootView(), width);
+            startActivity(new Intent(this,MenuActivity.class));
+            overridePendingTransition(0, 0);
             break;
         case R.id.back:
             

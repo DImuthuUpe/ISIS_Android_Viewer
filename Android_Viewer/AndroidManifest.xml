@@ -63,6 +63,11 @@
             android:name="com.dimuthuupeksha.viewer.android.ui.LogInActivity"
             android:label="@string/title_activity_log_in" >
         </activity>
+        
+        <activity
+            android:label="@string/app_name"
+            android:name="com.dimuthuupeksha.viewer.android.uimodel.MenuActivity" >
+        </activity>
     </application>
 
 </manifest>
