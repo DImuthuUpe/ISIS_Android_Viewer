@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
@@ -36,54 +37,30 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ActionResultActivity extends Activity {
+public class ActionResultMapper {
 
-    String title;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Action action = (Action) getIntent().getSerializableExtra("action");
-        title = (String) getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getActionBar();
-        actionBar.setTitle(title);
-        new InvokeTask(ActionResultActivity.this).execute(action);
+    private String title;
+    private Action action;
+    private Activity parentActivity;
+    private Context context;
+    public ActionResultMapper(Action action,String title,Activity parentActivity,Context context) {
+        this.action=action;
+        this.title = title;
+        this.parentActivity =parentActivity;
+        this.context=context;
+        new InvokeTask(ActionResultMapper.this).execute(action);
+        
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-
-        case R.id.home:
-            intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
-            break;
-        case R.id.services:
-            intent = new Intent(this, ServicesActivity.class);
-            intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
-            startActivity(intent);
-            break;
-        case R.id.back:
-
-        }
-        return true;
-    }
-
+    
     private void renderList(final ActionResult listRepr) {
 
         String data = listRepr.AsJson();
-        Intent intent = new Intent(ActionResultActivity.this, ListRenderActivity.class);
+        Intent intent = new Intent(parentActivity, ListRenderActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("data", data);
         intent.putExtra("title", title);
 
-        startActivity(intent);
+        context.startActivity(intent);
 
     }
 
@@ -91,9 +68,10 @@ public class ActionResultActivity extends Activity {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String data = mapper.writeValueAsString(result);
-            Intent intent = new Intent(ActionResultActivity.this, ObjectRenderActivity.class);
+            Intent intent = new Intent(parentActivity, ObjectRenderActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("data", data);
-            startActivity(intent);
+            context.startActivity(intent);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -108,10 +86,11 @@ public class ActionResultActivity extends Activity {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String data = mapper.writeValueAsString(result);
-            Intent intent = new Intent(ActionResultActivity.this, ScalarRenderActivity.class);
+            Intent intent = new Intent(parentActivity, ScalarRenderActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("data", data);
             intent.putExtra("title", title);
-            startActivity(intent);
+            context.startActivity(intent);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -124,13 +103,13 @@ public class ActionResultActivity extends Activity {
 
     private class InvokeTask extends AsyncTask<Action, Void, ActionResult> {
 
-        private ActionResultActivity activity;
+        private ActionResultMapper activity;
         int error = 0;
         private static final int INVALID_CREDENTIAL = -1;
         private static final int CONNECTION_ERROR = -2;
         private static final int UNKNOWN_ERROR = -3;
 
-        public InvokeTask(ActionResultActivity activity) {
+        public InvokeTask(ActionResultMapper activity) {
             this.activity = activity;
         }
 
@@ -180,13 +159,14 @@ public class ActionResultActivity extends Activity {
 
             if (error == INVALID_CREDENTIAL) {
                 /* Username and password not valid show the Login */
-                Intent intent = new Intent(ActionResultActivity.this, LogInActivity.class);
-                ActionResultActivity.this.startActivity(intent);
+                Intent intent = new Intent(parentActivity, LogInActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
 
             if (error == CONNECTION_ERROR) {
                 /** Show the error Dialog */
-                AlertDialog alertDialog = new AlertDialog.Builder(ActionResultActivity.this).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(parentActivity).create();
                 alertDialog.setTitle("Connection Error");
                 alertDialog.setMessage("Please check your settings.");
 

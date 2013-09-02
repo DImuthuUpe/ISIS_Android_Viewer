@@ -72,11 +72,7 @@ public class ActionActivity extends Activity {
         if (!invokeLink.getArguments().isEmpty()) {
             new DomainTypeFetcherTask(ActionActivity.this).execute(action);
         } else {
-            Intent intent = new Intent(ActionActivity.this, ActionResultActivity.class);
-            intent.putExtra("action", action);
-            intent.putExtra("title", title);
-            startActivity(intent);
-
+            new ActionResultMapper(action, title, this, getApplicationContext());
         }
 
     }
@@ -152,11 +148,7 @@ public class ActionActivity extends Activity {
                 }
 
                 action.setArgs(args);
-                Intent intent = new Intent(ActionActivity.this, ActionResultActivity.class);
-                intent.putExtra("action", action);
-                intent.putExtra("title", title);
-
-                startActivity(intent);
+                new ActionResultMapper(action, title, ActionActivity.this, getApplicationContext());
                 // new TempTask().execute(args);
                 // System.out.println(response);
             }
