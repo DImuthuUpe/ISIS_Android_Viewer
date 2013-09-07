@@ -1,21 +1,21 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
-import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
-import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
-import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
-import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-import android.os.Bundle;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ScalarRenderActivity extends Activity {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
+import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
+
+public class ScalarRenderActivity extends SherlockActivity {
     private String title;
     private LinearLayout layout;
 
@@ -26,7 +26,7 @@ public class ScalarRenderActivity extends Activity {
         layout.setOrientation(android.widget.LinearLayout.VERTICAL);
         String data = (String) getIntent().getSerializableExtra("data");
         title = (String) getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
         ActionResult result = JsonRepr.fromString(ActionResult.class, data);
 
@@ -36,10 +36,10 @@ public class ScalarRenderActivity extends Activity {
         setContentView(layout);
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
+        com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.basic_menu, (com.actionbarsherlock.view.Menu) menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
     @Override

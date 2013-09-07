@@ -1,50 +1,36 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
-import com.dimuthuupeksha.viewer.android.applib.representation.Action;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
-import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SimpleAdapter;
-
-public class ListRenderActivity extends Activity {
+public class ListRenderActivity extends SherlockActivity {
 
     private String title;
     private ListView listView;
@@ -54,7 +40,7 @@ public class ListRenderActivity extends Activity {
         super.onCreate(savedInstanceState);
         String data = (String) getIntent().getSerializableExtra("data");
         title = (String) getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
         final ActionResult listRepr = JsonRepr.fromString(ActionResult.class, data);
         listView = new ListView(this);
@@ -80,10 +66,10 @@ public class ListRenderActivity extends Activity {
         setContentView(layout);
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
+        com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.basic_menu, (com.actionbarsherlock.view.Menu) menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
     @Override

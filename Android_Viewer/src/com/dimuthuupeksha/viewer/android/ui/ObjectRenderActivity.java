@@ -1,45 +1,17 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
-import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
-import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
-import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
-import com.dimuthuupeksha.viewer.android.applib.representation.Service;
-import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
-import com.dimuthuupeksha.viewer.android.uimodel.Model;
-
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import android.os.Bundle;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.TabActivity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
-public class ObjectRenderActivity extends TabActivity {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
+
+public class ObjectRenderActivity extends SherlockFragmentActivity {
 
     /*
      * @Override protected void onCreate(Bundle savedInstanceState) {
@@ -56,33 +28,16 @@ public class ObjectRenderActivity extends TabActivity {
      * }
      */
 
-    public void onCreate(Bundle savedInstanceState) {
+    /*public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         String data = (String) getIntent().getSerializableExtra("data");
         final ActionResultItem result = JsonRepr.fromString(ActionResultItem.class, data);
         System.out.println(result.getLinkByRel("describedby").getHref());
         String title = result.getTitle();
-        ActionBar actionBar = getActionBar();
-        actionBar.setTitle(title);
-
-        Map<String, ObjectMember> propertyMembers = new HashMap<String, ObjectMember>();
-        Map<String, ObjectMember> actionMembers = new HashMap<String, ObjectMember>();
-        Map<String, ObjectMember> collectionMembers = new HashMap<String, ObjectMember>();
-
-        Iterator<String> it = result.getMembers().keySet().iterator();
-        while (it.hasNext()) {
-            String key = it.next();
-            String memberType = result.getMembers().get(key).getMemberType();
-            if (memberType.equals("property")) {
-                propertyMembers.put(key, result.getMembers().get(key));
-            } else if (memberType.equals("action")) {
-                actionMembers.put(key, result.getMembers().get(key));
-            } else if (memberType.equals("collection")) {
-                collectionMembers.put(key, result.getMembers().get(key));
-            }
-        }
-
+        //ActionBar actionBar = getActionBar();
+        //actionBar.setTitle(title);
+        
         TabHost tabHost = getTabHost();
         Intent intent = null;
         ObjectMapper mapper = new ObjectMapper();
@@ -129,12 +84,44 @@ public class ObjectRenderActivity extends TabActivity {
             }
         });
 
-    }
-
+    }*/
+    
+    
+    Tab tab;
+    
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        String data = (String) getIntent().getSerializableExtra("data");
+        // Create the Actionbar
+        ActionBar actionBar = getSupportActionBar();
+ 
+        // Hide Actionbar Icon
+        actionBar.setDisplayShowHomeEnabled(false);
+ 
+        // Hide Actionbar Title
+        actionBar.setDisplayShowTitleEnabled(false);
+ 
+        // Create Actionbar Tabs
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+ 
+        // Create first Tab
+        tab = actionBar.newTab().setTabListener(new ObjectPropertyRenderFragment());
+        // Create your own custom icon
+        tab.setText("Properties");
+        actionBar.addTab(tab);
+ 
+        // Create Second Tab
+        tab = actionBar.newTab().setTabListener(new ObjectActionRenderFragment());
+        // Set Tab Title
+        tab.setText("Actions");
+        actionBar.addTab(tab);
+ 
+        // Create Third Tab
+        tab = actionBar.newTab().setTabListener(new ObjectCollectionRenderFragment());
+        // Set Tab Title
+        tab.setText("Collection");
+        actionBar.addTab(tab);
     }
 
     @Override

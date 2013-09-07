@@ -6,37 +6,32 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.dimuthuupeksha.viewer.android.applib.ROClient;
-import com.dimuthuupeksha.viewer.android.applib.RORequest;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.JsonParseException;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
-import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeCollection;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeProperty;
-import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
-import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
-import com.dimuthuupeksha.viewer.android.uimodel.Model;
-
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class ObjectCollectionRenderActivity extends ListActivity {
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.dimuthuupeksha.viewer.android.applib.ROClient;
+import com.dimuthuupeksha.viewer.android.applib.RORequest;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
+import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
+import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeCollection;
+import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
+import com.dimuthuupeksha.viewer.android.uimodel.Model;
+
+public class ObjectCollectionRenderActivity extends SherlockListActivity {
 
     private Map<String, ObjectMember> collectionMember;
     private String describedby;
@@ -59,12 +54,6 @@ public class ObjectCollectionRenderActivity extends ListActivity {
                 collectionMember.put(key, actionResultItem.getMembers().get(key));
             }
         }
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
     }
     
     @Override

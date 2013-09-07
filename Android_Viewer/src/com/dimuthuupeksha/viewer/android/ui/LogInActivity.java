@@ -1,16 +1,15 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
-import com.dimuthuupeksha.viewer.android.applib.ROClient;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LogInActivity extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+import com.dimuthuupeksha.viewer.android.applib.ROClient;
+
+public class LogInActivity extends SherlockActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

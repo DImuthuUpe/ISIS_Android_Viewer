@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
-public class SlideoutActivity extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class SlideoutActivity extends SherlockActivity {
 
 	public static void prepare(Activity activity, View rootView, int width){
 		SlideoutHelper.prepare(activity, rootView, width);
@@ -14,7 +16,7 @@ public class SlideoutActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    getActionBar().hide();
+	    getSupportActionBar().hide();
 	    mSlideoutHelper.activate();
 	    mSlideoutHelper.open();
 	}

@@ -1,5 +1,18 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
@@ -12,21 +25,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-public class CollectionRenderActivity extends ListActivity {
+public class CollectionRenderActivity extends SherlockListActivity {
     private Collection collection;
 
     @Override
@@ -35,18 +34,18 @@ public class CollectionRenderActivity extends ListActivity {
         String data = (String) getIntent().getSerializableExtra("data");
         Link link = JsonRepr.fromString(Link.class, data);
         String title = (String) getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
         System.out.println(link.getHref());
         new CollectionTask().execute(link);
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
+        com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.basic_menu, (com.actionbarsherlock.view.Menu) menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;

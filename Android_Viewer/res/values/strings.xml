@@ -16,5 +16,8 @@
     <string name="title_activity_scalar_render">ScalarRenderActivity</string>
     <string name="title_activity_collection_render">CollectionRenderActivity</string>
     <string name="title_activity_log_in">LogInActivity</string>
+    <string name="title_activity_object_property_render_fragment">ObjectPropertyRenderFragment</string>
+    <string name="title_activity_object_action_render_fragment">ObjectActionRenderFragment</string>
+    <string name="title_activity_object_collection_render_fragment">ObjectCollectionRenderFragment</string>
 
 </resources>

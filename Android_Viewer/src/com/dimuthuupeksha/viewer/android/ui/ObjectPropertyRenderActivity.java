@@ -1,10 +1,29 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
@@ -21,37 +40,10 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Property;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
 
-import org.apache.http.impl.client.RoutedRequest;
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.sax.TextElementListener;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-public class ObjectPropertyRenderActivity extends Activity {
+public class ObjectPropertyRenderActivity extends SherlockActivity {
 
     Map<String, ObjectMember> propertyMember;
     String describedby;
@@ -83,7 +75,7 @@ public class ObjectPropertyRenderActivity extends Activity {
                 // System.out.println(actionResultItem.getMembers().get(key).getValue());
             }
         }
-
+        refresh();
         // restaurants = propertyMember.keySet().toArray(restaurants);
         // ListView view = getListView();
         // view.setAdapter(new ArrayAdapter<String>(getBaseContext(),
@@ -92,11 +84,7 @@ public class ObjectPropertyRenderActivity extends Activity {
 
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
-    }
+    
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

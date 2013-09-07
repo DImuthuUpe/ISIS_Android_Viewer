@@ -1,6 +1,7 @@
 package com.dimuthuupeksha.viewer.android.uimodel;
 
-import android.app.DatePickerDialog;
+import java.lang.reflect.Method;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
@@ -41,6 +42,14 @@ public class ViewMapper {
 	            int month = Integer.parseInt(value.split("-")[1])-1;
 	            int date = Integer.parseInt(value.split("-")[2]);
 	            datePicker.init(year, month, date, null);
+            }
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion >= 11) {
+              try {
+                Method m = datePicker.getClass().getMethod("setCalendarViewShown", boolean.class);
+                m.invoke(datePicker, false);
+              }
+              catch (Exception e) {} // eat exception in our case
             }
         	return datePicker;
         } else if (type.equals("java.math.BigDecimal")) {

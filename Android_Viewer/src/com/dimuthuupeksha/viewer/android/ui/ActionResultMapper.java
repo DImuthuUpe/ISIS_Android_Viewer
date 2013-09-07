@@ -21,7 +21,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;

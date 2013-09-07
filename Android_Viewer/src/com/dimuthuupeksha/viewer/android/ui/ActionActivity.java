@@ -1,14 +1,28 @@
 package com.dimuthuupeksha.viewer.android.ui;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
@@ -16,40 +30,17 @@ import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialExce
 import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.Action;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
+import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeActionParam;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeActionParam;
-import com.dimuthuupeksha.viewer.android.applib.representation.ServiceMember;
 import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
 
-public class ActionActivity extends Activity {
+
+
+public class ActionActivity extends SherlockActivity{
     private Action action;
     private String title;
 
@@ -60,7 +51,7 @@ public class ActionActivity extends Activity {
         String data = (String) getIntent().getSerializableExtra("detailLink");
         Link detailLink = JsonRepr.fromString(Link.class, data);
         title = (String) getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
         System.out.println(detailLink.getHref());
         new ActionTask(ActionActivity.this).execute(detailLink);
@@ -147,22 +138,18 @@ public class ActionActivity extends Activity {
                     args.put((String) id, value);
                 }
 
-                action.setArgs(args);
+                action.setArgs(args); 
                 new ActionResultMapper(action, title, ActionActivity.this, getApplicationContext());
                 // new TempTask().execute(args);
                 // System.out.println(response);
             }
         });
         layout.addView(submitButton);
-        setContentView(layout);
+        ScrollView sv = new ScrollView(this);
+        sv.addView(layout);
+        setContentView(sv);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action, menu);
-        return true;
-    }
 
     private class ActionTask extends AsyncTask<Link, Void, Action> {
 

@@ -3,22 +3,19 @@ package com.dimuthuupeksha.viewer.android.uimodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.Services;
-import com.dimuthuupeksha.viewer.android.ui.DomainServiceActivity;
-import com.dimuthuupeksha.viewer.android.ui.HomeActivity;
-import com.dimuthuupeksha.viewer.android.ui.ServicesActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MenuFragment extends ListFragment {
-    
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.applib.representation.Services;
+import com.dimuthuupeksha.viewer.android.ui.DomainServiceActivity;
+
+public class MenuFragment extends SherlockListFragment {
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -38,9 +35,9 @@ public class MenuFragment extends ListFragment {
         ((MenuActivity) getActivity()).getSlideoutHelper().close();
         Services services = Model.getInstance().getServices();
         Link link = services.getValue().get(position);
-        Intent intent = new Intent(getActivity().getApplicationContext(),DomainServiceActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(), DomainServiceActivity.class);
         intent.putExtra("link", link);
         startActivity(intent);
-    } 
+    }
 
 }

@@ -3,6 +3,21 @@ package com.dimuthuupeksha.viewer.android.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
@@ -10,34 +25,17 @@ import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialExce
 import com.dimuthuupeksha.viewer.android.applib.exceptions.JsonParseException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.Service;
 import com.dimuthuupeksha.viewer.android.applib.representation.Services;
 import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-public class ServicesActivity extends ListActivity {
+public class ServicesActivity extends SherlockListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.services_page));
 
         Link link = (Link) getIntent().getSerializableExtra("link");
@@ -45,10 +43,10 @@ public class ServicesActivity extends ListActivity {
 
     }
     
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
+        com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.basic_menu, (com.actionbarsherlock.view.Menu) menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
     @Override

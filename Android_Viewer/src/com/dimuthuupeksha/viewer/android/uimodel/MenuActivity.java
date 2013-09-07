@@ -1,17 +1,17 @@
 package com.dimuthuupeksha.viewer.android.uimodel;
 
-import com.dimuthuupeksha.viewer.android.ui.R;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
-public class MenuActivity extends FragmentActivity{
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.dimuthuupeksha.viewer.android.ui.R;
+
+public class MenuActivity extends SherlockFragmentActivity{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    getActionBar().hide();
+	    getSupportActionBar().hide();
 	    mSlideoutHelper = new SlideoutHelper(this);
 	    mSlideoutHelper.activate();
 	    getSupportFragmentManager().beginTransaction().add(R.id.slideout_placeholder, new MenuFragment(), "menu").commit();

@@ -3,49 +3,38 @@ package com.dimuthuupeksha.viewer.android.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
-import com.dimuthuupeksha.viewer.android.applib.UrlTemplate;
-import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-import android.net.MailTo;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.StrictMode;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
 
-public class HomeActivity extends ListActivity {
+public class HomeActivity extends SherlockListActivity {
 
     
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
 
         //setContentView(R.layout.list);
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.home_page));        
         new HomeTask(HomeActivity.this).execute();
         
@@ -66,10 +55,10 @@ public class HomeActivity extends ListActivity {
         
     }
     
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
+        com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.basic_menu, (com.actionbarsherlock.view.Menu) menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
     @Override

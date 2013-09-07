@@ -23,6 +23,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -47,7 +48,7 @@ import org.json.JSONObject;
 
 public class ROClient {
     private final DefaultHttpClient client;
-    private final String host = "http://10.0.2.2:8080/restful/";
+    private final String host = "http://192.168.56.1:8080/restful/";
 
     private ROClient() {
         client = new DefaultHttpClient();
@@ -167,6 +168,17 @@ public class ROClient {
                 throw new InvalidCredentialException();
 
             default:
+                System.out.println("Error " + statusCode);
+                try {
+                    String json = EntityUtils.toString(response.getEntity());
+                    System.out.println(json);
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 throw new UnknownErrorException();
 
             }

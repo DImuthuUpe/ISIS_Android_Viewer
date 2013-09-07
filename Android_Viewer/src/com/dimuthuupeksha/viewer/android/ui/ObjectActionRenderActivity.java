@@ -6,41 +6,35 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.dimuthuupeksha.viewer.android.applib.ROClient;
-import com.dimuthuupeksha.viewer.android.applib.RORequest;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
-import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
-import com.dimuthuupeksha.viewer.android.applib.representation.Action;
-import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainType;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
-import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeProperty;
-import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
-import com.dimuthuupeksha.viewer.android.applib.representation.Link;
-import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
-import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
-import com.dimuthuupeksha.viewer.android.uimodel.Model;
-
-import org.apache.http.impl.client.RoutedRequest;
-
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class ObjectActionRenderActivity extends ListActivity {
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.MenuItem;
+import com.dimuthuupeksha.viewer.android.applib.ROClient;
+import com.dimuthuupeksha.viewer.android.applib.RORequest;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
+import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
+import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
+import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeAction;
+import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
+import com.dimuthuupeksha.viewer.android.applib.representation.Link;
+import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
+import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
+
+public class ObjectActionRenderActivity extends SherlockListActivity {
 
     String describedby;
     // String self;
@@ -50,6 +44,7 @@ public class ObjectActionRenderActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         String data = (String) getIntent().getSerializableExtra("data");
         ActionResultItem actionResultItem = JsonRepr.fromString(ActionResultItem.class, data);
         describedby = actionResultItem.getLinkByRel("describedby").getHref();
@@ -72,30 +67,24 @@ public class ObjectActionRenderActivity extends ListActivity {
         // R.layout.simple_list_item_1, chains));
         //
     }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.basic_menu, menu);
-        return true;
-    }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch(item.getItemId()){
-        
+        switch (item.getItemId()) {
+
         case R.id.home:
-            intent = new Intent(this,HomeActivity.class);
+            intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             break;
         case R.id.services:
-            int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+            int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
             com.dimuthuupeksha.viewer.android.uimodel.SlideoutActivity.prepare(this, getWindow().getDecorView().getRootView(), width);
-            startActivity(new Intent(this,MenuActivity.class));
+            startActivity(new Intent(this, MenuActivity.class));
             overridePendingTransition(0, 0);
             break;
         case R.id.back:
-            
+
         }
         return true;
     }
@@ -148,10 +137,12 @@ public class ObjectActionRenderActivity extends ListActivity {
                                                                 // render the
                                                                 // action
         intent.putExtra("detailLink", data);
-        intent.putExtra("title", ((Map<String,String>)l.getItemAtPosition(position)).get("head"));
+        intent.putExtra("title", ((Map<String, String>) l.getItemAtPosition(position)).get("head"));
         startActivity(intent);
 
     }
+
+    
 
     private class ResolveReferenceTask extends AsyncTask<Void, Void, Map<String, Map<String, Object>>> {
 
