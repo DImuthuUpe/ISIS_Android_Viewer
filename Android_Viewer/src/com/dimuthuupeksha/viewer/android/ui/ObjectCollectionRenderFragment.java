@@ -29,13 +29,14 @@ import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
+import com.dimuthuupeksha.viewer.android.applib.representation.Collection;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeCollection;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
-public class ObjectCollectionRenderFragment extends SherlockListFragment implements ActionBar.TabListener{
+public class ObjectCollectionRenderFragment extends SherlockListFragment implements ActionBar.TabListener {
 
     private Fragment mFragment;
     private Map<String, ObjectMember> collectionMember;
@@ -46,7 +47,7 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String data =  (String) getActivity().getIntent().getSerializableExtra("data");
+        String data = (String) getActivity().getIntent().getSerializableExtra("data");
         ActionResultItem actionResultItem = JsonRepr.fromString(ActionResultItem.class, data);
         describedby = actionResultItem.getLinkByRel("describedby").getHref();
         collectionMember = new HashMap<String, ObjectMember>();
@@ -61,23 +62,23 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
         }
         refresh();
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch(item.getItemId()){
-        
+        switch (item.getItemId()) {
+
         case R.id.home:
-            intent = new Intent(this.getActivity(),HomeActivity.class);
+            intent = new Intent(this.getActivity(), HomeActivity.class);
             startActivity(intent);
             break;
         case R.id.services:
-            intent = new Intent(this.getActivity(),ServicesActivity.class);
+            intent = new Intent(this.getActivity(), ServicesActivity.class);
             intent.putExtra("link", Model.getInstance().getHomePage().getLinkByRel("services"));
             startActivity(intent);
             break;
         case R.id.back:
-            
+
         }
         return true;
     }
@@ -88,12 +89,25 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
         collectionIds = referenceMap.keySet().toArray(collectionIds);
         String selectedId = collectionIds[position];
         Link detailLink = collectionMember.get(selectedId).getLinkByRel("details");
-        String data = detailLink.AsJson();
         Intent intent = new Intent(this.getActivity(), CollectionRenderActivity.class);
-        intent.putExtra("data", data);
-        intent.putExtra("title", ((Map<String,String>)l.getItemAtPosition(position)).get("head"));
-        System.out.println(selectedId);
+        intent.putExtra("title", ((Map<String, String>) l.getItemAtPosition(position)).get("head"));
+        if (detailLink != null) {
+            String data = detailLink.AsJson();
+            intent.putExtra("data", data);
+            intent.putExtra("forged", false);
+            System.out.println(selectedId);
+            
+        } else {
+
+            String valueJson = collectionMember.get(selectedId).getValue().toString();
+            String forgedCollection= "{\"value\":"+valueJson+"}";
+            intent.putExtra("data", forgedCollection);
+            intent.putExtra("forged", true);
+            System.out.println(selectedId);
+            
+        }
         startActivity(intent);
+
     }
 
     public void refresh() {
@@ -120,7 +134,7 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
             }
             detailedTitles.add(titleMap);
         }
-        
+
         SimpleAdapter sadapter = new SimpleAdapter(getSherlockActivity(), detailedTitles, R.layout.list_item_with_two_rows, new String[] { "head", "subhead" }, new int[] { R.id.txtHead, R.id.txtSubhead });
         setListAdapter(sadapter);
         getListView().setBackgroundColor(Color.WHITE);
@@ -172,7 +186,7 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
                 e.printStackTrace();
             }
             return referenceMap;
-        } 
+        }
 
         @Override
         protected void onPostExecute(Map<String, Map<String, Object>> result) {
@@ -208,7 +222,7 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
         }
 
     }
-    
+
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         // TODO Auto-generated method stub
         mFragment = new ObjectCollectionRenderFragment();
@@ -216,16 +230,16 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
         ft.add(android.R.id.content, mFragment);
         ft.attach(mFragment);
     }
- 
+
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
         // TODO Auto-generated method stub
         // Remove fragment1.xml layout
         ft.remove(mFragment);
     }
- 
+
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
         // TODO Auto-generated method stub
- 
+
     }
 
 }

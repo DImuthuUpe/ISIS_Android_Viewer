@@ -32,12 +32,18 @@ public class CollectionRenderActivity extends SherlockListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String data = (String) getIntent().getSerializableExtra("data");
-        Link link = JsonRepr.fromString(Link.class, data);
-        String title = (String) getIntent().getSerializableExtra("title");
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(title);
-        System.out.println(link.getHref());
-        new CollectionTask().execute(link);
+        boolean forged = (Boolean) getIntent().getSerializableExtra("forged");
+        if (!forged) {
+            Link link = JsonRepr.fromString(Link.class, data);
+            String title = (String) getIntent().getSerializableExtra("title");
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setTitle(title);
+            System.out.println(link.getHref());
+            new CollectionTask().execute(link);
+        }else{
+            Collection forgedCol = JsonRepr.fromString(Collection.class,data);
+            render(forgedCol);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,7 +51,7 @@ public class CollectionRenderActivity extends SherlockListActivity {
         inflater.inflate(R.menu.basic_menu, (com.actionbarsherlock.view.Menu) menu);
         return super.onCreateOptionsMenu(menu);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
@@ -82,7 +88,6 @@ public class CollectionRenderActivity extends SherlockListActivity {
         ListView view = getListView();
         view.setAdapter(new ArrayAdapter<String>(getBaseContext(), R.layout.simple_list_item, collectionTitles));
     }
-
 
     private class CollectionTask extends AsyncTask<Link, Void, Collection> {
         int error = 0;
