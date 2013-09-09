@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -29,7 +30,6 @@ import com.dimuthuupeksha.viewer.android.applib.exceptions.ConnectionException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.InvalidCredentialException;
 import com.dimuthuupeksha.viewer.android.applib.exceptions.UnknownErrorException;
 import com.dimuthuupeksha.viewer.android.applib.representation.ActionResultItem;
-import com.dimuthuupeksha.viewer.android.applib.representation.Collection;
 import com.dimuthuupeksha.viewer.android.applib.representation.DomainTypeCollection;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
@@ -88,25 +88,29 @@ public class ObjectCollectionRenderFragment extends SherlockListFragment impleme
         String[] collectionIds = new String[referenceMap.keySet().size()];
         collectionIds = referenceMap.keySet().toArray(collectionIds);
         String selectedId = collectionIds[position];
-        Link detailLink = collectionMember.get(selectedId).getLinkByRel("details");
-        Intent intent = new Intent(this.getActivity(), CollectionRenderActivity.class);
-        intent.putExtra("title", ((Map<String, String>) l.getItemAtPosition(position)).get("head"));
-        if (detailLink != null) {
-            String data = detailLink.AsJson();
-            intent.putExtra("data", data);
-            intent.putExtra("forged", false);
-            System.out.println(selectedId);
-            
-        } else {
+        if (collectionMember.get(selectedId).getDisabledReason() == null) {
+            Link detailLink = collectionMember.get(selectedId).getLinkByRel("details");
+            Intent intent = new Intent(this.getActivity(), CollectionRenderActivity.class);
+            intent.putExtra("title", ((Map<String, String>) l.getItemAtPosition(position)).get("head"));
+            if (detailLink != null) {
+                String data = detailLink.AsJson();
+                intent.putExtra("data", data);
+                intent.putExtra("forged", false);
+                System.out.println(selectedId);
 
-            String valueJson = collectionMember.get(selectedId).getValue().toString();
-            String forgedCollection= "{\"value\":"+valueJson+"}";
-            intent.putExtra("data", forgedCollection);
-            intent.putExtra("forged", true);
-            System.out.println(selectedId);
-            
+            } else {
+
+                String valueJson = collectionMember.get(selectedId).getValue().toString();
+                String forgedCollection = "{\"value\":" + valueJson + "}";
+                intent.putExtra("data", forgedCollection);
+                intent.putExtra("forged", true);
+                System.out.println(selectedId);
+
+            }
+            startActivity(intent);
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(), collectionMember.get(selectedId).getDisabledReason(), Toast.LENGTH_SHORT).show();
         }
-        startActivity(intent);
 
     }
 

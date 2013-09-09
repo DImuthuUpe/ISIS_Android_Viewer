@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -36,9 +37,7 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 
-public class ObjectActionRenderFragment extends SherlockListFragment implements ActionBar.TabListener{
-
-    
+public class ObjectActionRenderFragment extends SherlockListFragment implements ActionBar.TabListener {
 
     private Fragment mFragment;
     String describedby;
@@ -46,6 +45,7 @@ public class ObjectActionRenderFragment extends SherlockListFragment implements 
     Map<String, ObjectMember> actionMembers;
     private boolean refreshed = false;
     private String data;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,33 +66,31 @@ public class ObjectActionRenderFragment extends SherlockListFragment implements 
                 // System.out.println(actionResultItem.getMembers().get(key).getValue());
             }
         }
-        
+
         // ListView view = getListView();
         // view.setAdapter(new ArrayAdapter<String>(getBaseContext(),
         // R.layout.simple_list_item_1, chains));
         //
         refresh();
     }
-    
- 
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch(item.getItemId()){
-        
+        switch (item.getItemId()) {
+
         case R.id.home:
-            intent = new Intent(this.getActivity(),HomeActivity.class);
+            intent = new Intent(this.getActivity(), HomeActivity.class);
             startActivity(intent);
             break;
         case R.id.services:
-            int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+            int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
             com.dimuthuupeksha.viewer.android.uimodel.SlideoutActivity.prepare(getActivity(), getActivity().getWindow().getDecorView().getRootView(), width);
-            startActivity(new Intent(this.getActivity(),MenuActivity.class));
+            startActivity(new Intent(this.getActivity(), MenuActivity.class));
             getActivity().overridePendingTransition(0, 0);
             break;
         case R.id.back:
-            
+
         }
         return true;
     }
@@ -134,18 +132,23 @@ public class ObjectActionRenderFragment extends SherlockListFragment implements 
         actionIds = referenceMap.keySet().toArray(actionIds);
         String selectedId = actionIds[position];
         System.out.println(selectedId);
-        ObjectMember member = actionMembers.get(selectedId);
-        Link detailLink = member.getLinkByRel("details");
-        String data = detailLink.AsJson();
-        Intent intent = new Intent(this.getActivity(), ActionActivity.class); // pass details
-                                                                // link to
-                                                                // ActionAction
-                                                                // class to
-                                                                // render the
-                                                                // action
-        intent.putExtra("detailLink", data);
-        intent.putExtra("title", ((Map<String,String>)l.getItemAtPosition(position)).get("head"));
-        startActivity(intent);
+        if (actionMembers.get(selectedId).getDisabledReason() == null) {
+            ObjectMember member = actionMembers.get(selectedId);
+            Link detailLink = member.getLinkByRel("details");
+            String data = detailLink.AsJson();
+            Intent intent = new Intent(this.getActivity(), ActionActivity.class); // pass
+                                                                                  // details
+            // link to
+            // ActionAction
+            // class to
+            // render the
+            // action
+            intent.putExtra("detailLink", data);
+            intent.putExtra("title", ((Map<String, String>) l.getItemAtPosition(position)).get("head"));
+            startActivity(intent);
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(), actionMembers.get(selectedId).getDisabledReason(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -235,9 +238,7 @@ public class ObjectActionRenderFragment extends SherlockListFragment implements 
             pd.hide();
         }
     }
-    
-    
-    
+
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         // TODO Auto-generated method stub
         mFragment = new ObjectActionRenderFragment();
@@ -245,16 +246,16 @@ public class ObjectActionRenderFragment extends SherlockListFragment implements 
         ft.add(android.R.id.content, mFragment);
         ft.attach(mFragment);
     }
- 
+
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
         // TODO Auto-generated method stub
         // Remove fragment1.xml layout
         ft.remove(mFragment);
     }
- 
+
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
         // TODO Auto-generated method stub
- 
+
     }
 
 }
