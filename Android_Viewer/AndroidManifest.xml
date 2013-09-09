@@ -18,11 +18,7 @@
         <activity
             android:name="com.dimuthuupeksha.viewer.android.ui.HomeActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
         <activity
             android:name="com.dimuthuupeksha.viewer.android.ui.ServicesActivity"
@@ -78,6 +74,15 @@
         <activity
             android:name="com.dimuthuupeksha.viewer.android.ui.ObjectCollectionRenderFragment"
             android:label="@string/title_activity_object_collection_render_fragment" >
+        </activity>
+        <activity
+            android:name="com.dimuthuupeksha.viewer.android.ui.InitialAvtivity"
+            android:label="@string/title_activity_initial_avtivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

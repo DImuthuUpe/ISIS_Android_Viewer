@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter url of the web service" 
+        />
+
+    <EditText 
+        android:id="@+id/host"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="http://192.168.56.1:8080/restful/"
+        />
+    <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:onClick="submitClicked"
+        />
+</LinearLayout>

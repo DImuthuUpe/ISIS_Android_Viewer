@@ -48,7 +48,7 @@ import org.json.JSONObject;
 
 public class ROClient {
     private final DefaultHttpClient client;
-    private final String host = "http://192.168.56.1:8080/restful/";
+    private String host = "http://192.168.56.1:8080/restful/";
 
     private ROClient() {
         client = new DefaultHttpClient();
@@ -61,6 +61,10 @@ public class ROClient {
         CredentialsProvider provider = new BasicCredentialsProvider();
         provider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), new UsernamePasswordCredentials(username, password));
         client.setCredentialsProvider(provider);
+    }
+    
+    public void setHost(String host){
+        this.host = host;
     }
 
     public static ROClient getInstance() {
