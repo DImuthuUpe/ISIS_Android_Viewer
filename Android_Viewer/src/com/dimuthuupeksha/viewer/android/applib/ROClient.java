@@ -52,7 +52,7 @@ public class ROClient {
 
     private ROClient() {
         client = new DefaultHttpClient();
-        setCredential("sven", "pass2");
+        setCredential("sven", "pass");
     }
 
     private static ROClient roClient = null;

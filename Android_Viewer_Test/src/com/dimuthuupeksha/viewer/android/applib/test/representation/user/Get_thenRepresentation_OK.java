@@ -1,22 +1,23 @@
 package com.dimuthuupeksha.viewer.android.applib.test.representation.user;
 
-import com.dimuthuupeksha.viewer.android.applib.HttpHelper;
+
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
-import com.dimuthuupeksha.viewer.android.applib.representation.UserRepresentation;
+import com.dimuthuupeksha.viewer.android.applib.representation.User;
 
 import junit.framework.TestCase;
 
 public class Get_thenRepresentation_OK extends TestCase {
+	String HOST = "http://192.168.56.1:8080/restful";
     public void testuserRepresentation() throws Exception{
         String params[]= {}; 
         
         ROClient client = ROClient.getInstance();
-        RORequest request =  client.RORequestTo(Resource.User, params);
-        UserRepresentation userRepresentation = client.executeT(UserRepresentation.class,"GET",request, null);
+        RORequest request =  RORequest.To(HOST,Resource.User, params);
+        User userRepresentation = client.executeT(User.class,"GET",request, null);
         assertNotNull(userRepresentation);
-        assertEquals(userRepresentation.getLinks().get(0).getHref(), HttpHelper.HOST+"/user");
-        assertEquals(userRepresentation.getLinks().get(1).getHref(), HttpHelper.HOST+"/");
+        assertEquals(userRepresentation.getLinkByRel("self").getHref(), HOST+"/user");
+        assertEquals(userRepresentation.getLinkByRel("up").getHref(), HOST+"/");
     }
 }
