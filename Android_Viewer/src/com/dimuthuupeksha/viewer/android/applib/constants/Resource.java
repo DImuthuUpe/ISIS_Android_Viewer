@@ -1,5 +1,7 @@
 package com.dimuthuupeksha.viewer.android.applib.constants;
 
+/* Author - Dimuthu Upeksha*/
+
 public class Resource {
     public static Resource HomePage = new Resource("/");
     public static Resource User = new Resource("/user");

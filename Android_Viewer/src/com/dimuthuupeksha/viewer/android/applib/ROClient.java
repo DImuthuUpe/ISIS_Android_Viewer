@@ -46,6 +46,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONObject;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ROClient {
     private final DefaultHttpClient client;
     private String host = "http://192.168.56.1:8080/restful/";

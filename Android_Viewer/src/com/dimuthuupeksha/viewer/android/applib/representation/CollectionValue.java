@@ -1,5 +1,6 @@
 package com.dimuthuupeksha.viewer.android.applib.representation;
 
+/* Author - Dimuthu Upeksha*/
 //this represents the value part of a Collection
 public class CollectionValue {
 

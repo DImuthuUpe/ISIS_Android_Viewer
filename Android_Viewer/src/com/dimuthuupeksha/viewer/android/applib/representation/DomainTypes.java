@@ -3,6 +3,8 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 import java.util.List;
 import java.util.Map;
 
+/* Author - Dimuthu Upeksha*/
+
 public class DomainTypes extends JsonRepr {
     private List<Link> values;
     private Map<String, String> extensions;

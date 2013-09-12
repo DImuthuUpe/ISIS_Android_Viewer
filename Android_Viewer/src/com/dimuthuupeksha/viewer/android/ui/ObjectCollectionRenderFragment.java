@@ -36,6 +36,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ObjectCollectionRenderFragment extends SherlockListFragment implements ActionBar.TabListener {
 
     private Fragment mFragment;

@@ -31,6 +31,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Service;
 import com.dimuthuupeksha.viewer.android.applib.representation.ServiceMember;
 import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 
+/* Author - Dimuthu Upeksha*/
+
 public class DomainServiceActivity extends SherlockListActivity {
 
     private Service service = null;

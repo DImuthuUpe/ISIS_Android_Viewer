@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ErrorRepr extends JsonRepr {
     private String message;
     private List<String> stackTrace;

@@ -2,6 +2,8 @@ package com.dimuthuupeksha.viewer.android.applib.representation;
 
 import java.util.List;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ServiceMember extends JsonRepr {
     private String memberType;
     private String id;

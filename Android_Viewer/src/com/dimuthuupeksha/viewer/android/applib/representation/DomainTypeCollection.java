@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
+/* Author - Dimuthu Upeksha*/
+
 public class DomainTypeCollection extends JsonRepr {
     private String id;
     private String memberType;

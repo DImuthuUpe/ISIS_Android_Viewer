@@ -11,6 +11,8 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+/* Author - Dimuthu Upeksha*/
+
 public class JsonRepr implements Serializable {
 
     protected List<Link> links;

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
+/* Author - Dimuthu Upeksha*/
+
 public class Link extends JsonRepr {
     private String Id;
     private String title;

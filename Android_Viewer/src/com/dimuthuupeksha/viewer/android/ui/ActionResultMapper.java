@@ -36,6 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ActionResultMapper {
 
     private String title;

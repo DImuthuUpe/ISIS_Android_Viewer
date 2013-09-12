@@ -6,6 +6,8 @@ import java.util.Map;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ObjectMember extends JsonRepr {
     private String id;
     private String memberType;

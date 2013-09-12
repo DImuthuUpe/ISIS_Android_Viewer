@@ -3,6 +3,8 @@ package com.dimuthuupeksha.viewer.android.applib;
 import java.util.ArrayList;
 import java.util.List;
 
+/* Author - Dimuthu Upeksha*/
+
 public class UrlTemplate {
     private String urlTemplate;
 

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/* Author - Dimuthu Upeksha*/
+
 public class Homepage extends JsonRepr {
     private Map<String, String> extensions;
 

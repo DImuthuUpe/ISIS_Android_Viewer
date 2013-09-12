@@ -9,6 +9,8 @@ import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 
+/* Author - Dimuthu Upeksha*/
+
 public class LogInActivity extends SherlockActivity {
 
     @Override

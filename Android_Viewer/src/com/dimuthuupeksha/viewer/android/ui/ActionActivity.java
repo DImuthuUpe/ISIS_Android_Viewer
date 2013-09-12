@@ -37,8 +37,7 @@ import com.dimuthuupeksha.viewer.android.uimodel.ViewMapper;
 
 import org.codehaus.jackson.JsonNode;
 
-
-
+/* Author - Dimuthu Upeksha*/
 
 public class ActionActivity extends SherlockActivity{
     private Action action;

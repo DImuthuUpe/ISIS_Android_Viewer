@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ActionResult extends JsonRepr {
     private String resulttype;
     private ActionResultItem result;

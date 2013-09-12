@@ -11,6 +11,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ObjectRenderActivity extends SherlockFragmentActivity {
 
     /*

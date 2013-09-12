@@ -31,6 +31,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.applib.representation.ObjectMember;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ObjectCollectionRenderActivity extends SherlockListActivity {
 
     private Map<String, ObjectMember> collectionMember;

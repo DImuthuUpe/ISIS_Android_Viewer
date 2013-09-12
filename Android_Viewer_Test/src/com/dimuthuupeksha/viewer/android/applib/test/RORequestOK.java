@@ -3,7 +3,6 @@ package com.dimuthuupeksha.viewer.android.applib.test;
 
 import com.dimuthuupeksha.viewer.android.applib.RORequest;
 import com.dimuthuupeksha.viewer.android.applib.constants.Resource;
-
 import junit.framework.TestCase;
 
 public class RORequestOK extends TestCase {

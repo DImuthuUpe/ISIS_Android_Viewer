@@ -25,6 +25,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
+/* Author - Dimuthu Upeksha*/
+
 public class CollectionRenderActivity extends SherlockListActivity {
     private Collection collection;
 

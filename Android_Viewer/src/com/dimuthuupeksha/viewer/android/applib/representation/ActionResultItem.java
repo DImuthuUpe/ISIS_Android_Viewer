@@ -7,6 +7,8 @@ import java.util.Map;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ActionResultItem extends JsonRepr {
     private JsonNode value;// for lists and scalars
     private Map<String, JsonNode> extensions;// for lists,object

@@ -15,6 +15,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.ActionResult;
 import com.dimuthuupeksha.viewer.android.applib.representation.JsonRepr;
 import com.dimuthuupeksha.viewer.android.uimodel.MenuActivity;
 
+/* Author - Dimuthu Upeksha*/
+
 public class ScalarRenderActivity extends SherlockActivity {
     private String title;
     private LinearLayout layout;

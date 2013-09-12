@@ -27,6 +27,8 @@ import com.dimuthuupeksha.viewer.android.applib.representation.Homepage;
 import com.dimuthuupeksha.viewer.android.applib.representation.Link;
 import com.dimuthuupeksha.viewer.android.uimodel.Model;
 
+/* Author - Dimuthu Upeksha*/
+
 public class HomeActivity extends SherlockListActivity {
 
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,6 +10,8 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.dimuthuupeksha.viewer.android.applib.ROClient;
 
+/* Author - Dimuthu Upeksha*/
+
 public class InitialAvtivity extends SherlockActivity {
 
     @Override
