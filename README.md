@@ -10,9 +10,6 @@ Isis works by building a metamodel from the domain object models, from which a g
 
 This GSOC suggestion is to develop a native Android app that will consume the RESTful API provided by Isis to provide a generic (naked objects) viewer for use either from a smartphone or tablet. Optionally this generic viewer could be extensible to allow mashups (as is supported by Isis' own Wicket-based viewer).
 
-Development Video : 
-* [as of 01 May 2013](http://www.youtube.com/watch?v=_POnfbxeqpE)
-
 Setting up development environment
 
 Isis Android client is compatible with Android 2.2 to 4.2. So basically it can be run on any any android phone or tablet available in market.
@@ -21,16 +18,16 @@ To set up the development environment you need eclipse IDE installed with an And
 
 There are two projects
 
-1- Android_Viewer
-2- Android_Viewer_Test
+* Android_Viewer
+* Android_Viewer_Test
 
-An one library project
+And one library project
 
-1- JakeWharton-ActionBarSherlock
+* JakeWharton-ActionBarSherlock
 
 Android_Viewer is the main project that contain the actual application and for testing purposes "Android_Viewer_Test" project is used 
 
-Opening these project
+To open these projects
 
 1 - Import the supporting library project
 
@@ -45,18 +42,18 @@ Opening these project
 * Do this to both projects
 * finish
 
-For more information follow this video : http://www.youtube.com/watch?v=szkZLmmW_r0
+For more information follow this [video](http://www.youtube.com/watch?v=szkZLmmW_r0)
 
 Then you need to set up an emulator for the project.
 
 You need to define the root of your webservice in HOST variable in com.dimuthuupeksha.viewer.android.applib.HttpHelper.java file
 
-Finally to run the application right click on the Android_Viewer project -> run as -> Android Application.
+Finally to run the application, right click on the Android_Viewer project -> run as -> Android Application.
 
 Here are some demo videos of the application
 
-1. http://www.youtube.com/watch?v=5MKg3W7pXZA
-2. http://www.youtube.com/watch?v=VBc-Zg-nH5Y
-3. http://www.youtube.com/watch?v=AtMPW0B-ZRE
+1. [Demo Video 1](http://www.youtube.com/watch?v=5MKg3W7pXZA)
+2. [Demo Video 2](http://www.youtube.com/watch?v=VBc-Zg-nH5Y)
+3. [Demo Video 3](http://www.youtube.com/watch?v=AtMPW0B-ZRE)
 
-To run the testcases of the application, right click on the Android_Viewer_Test project -> run as -> Android Junit Test
+To run the tests of the application, right click on the Android_Viewer_Test project -> run as -> Android Junit Test
