@@ -57,3 +57,10 @@ Here are some demo videos of the application
 3. [Demo Video 3](http://www.youtube.com/watch?v=AtMPW0B-ZRE)
 
 To run the tests of the application, right click on the Android_Viewer_Test project -> run as -> Android Junit Test
+
+~~~~~~~
+
+To build the project using maven build tool,
+
+1. From command line go to Android_Viewer folder
+2. mvn clean install
